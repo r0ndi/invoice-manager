@@ -36,49 +36,49 @@ class InvoiceService extends Service
             'dateIssue' => date('Y-m-d'),
             'dateSell' => date('Y-m-d'),
             'logo' => '../storage/logos/logo-1.png',
-            'invoiceTitle' => 'Faktura VAT nr 01/04/2019',
-            'paid' => true,
+            'invoiceTitle' => 'Faktura VAT nr 01/05/2019',
+            'paid' => false,
             'paymentMethod' => 'przelew',
-            'paymentDeadline' => date('Y-m-d'),
+            'paymentDeadline' => date('Y-m-d', strtotime('+ 10 DAY')),
             'bankNo' => '34 1050 1445 1000 0092 5036 1947',
-            'toPay' => '12 238,50 PLN',
-            'toPayInWords' => 'dwanaście tysiecy dwieście trzydziesci osiem 50/100 PLN',
+            'toPay' => '307,50 PLN',
+            'toPayInWords' => 'trzysta siedem 50/100 PLN',
             'seller' => [
-                'name' => 'Dream Apps Konrad Sądel',
+                'name' => 'Dream Apps Konrad Sądel',
                 'address' => 'Laskowa 645, 34-602 Laskowa',
-                'nip' => '7732211996',
-                'regon' => '102382424',
+                'nip' => '7372210996',
+                'regon' => '',
             ],
             'buyer' => [
-                'name' => 'Printbox',
-                'address' => 'Rynek Głowny 17, 30-008 Kraków',
-                'nip' => '7372210993',
-                'regon' => '2842882',
+                'name' => 'Art-Be Marta Mitan',
+                'address' => 'Laskowa 421, 34-602 Laskowa',
+                'nip' => '7371024027',
+                'regon' => '',
             ],
             'positions' => [
                 [
-                    'name' => 'Usługi programistyczne',
+                    'name' => 'Usługi hostingowe',
                     'unit' => 'usł.',
                     'quantity' => 1,
-                    'netPrice' => '9 950,00',
-                    'netValue' => '9 950,00',
-                    'grossValue' => '12 238,50',
+                    'netPrice' => '250,00',
+                    'netValue' => '250,00',
+                    'grossValue' => '307,50',
                     'tax' => '23%',
-                    'taxValue' => '2 288,50'
+                    'taxValue' => '57,50'
                 ]
             ],
             'taxSummary' => [
                 [
                     'name' => '23%',
-                    'netValue' => '9 950,00',
-                    'grossValue' => '12 238,50',
-                    'taxValue' => '2 288,50'
+                    'netValue' => '250,00',
+                    'grossValue' => '307,50',
+                    'taxValue' => '57,50'
                 ],
             ],
             'summary' => [
-                'netValue' => '9 950,00',
-                'grossValue' => '12 238,50',
-                'taxValue' => '2 288,50'
+                'netValue' => '250,00',
+                'grossValue' => '307,50',
+                'taxValue' => '57,50'
             ]
         ];
     }

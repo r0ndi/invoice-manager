@@ -6,6 +6,18 @@ home:
     path: /home
     controller: App\Controller\HomeController::home
 
+user-login:
+    path: /login
+    controller: App\Controller\AuthController::login
+
+user-register:
+    path: /register
+    controller: App\Controller\AuthController::register
+
+user-logout:
+    path: /logout
+    methods: GET
+
 generate-invoice:
     path: /invoice/generate
     controller: App\Controller\InvoiceController::generateInvoice

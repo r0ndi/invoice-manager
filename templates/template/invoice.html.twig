@@ -84,6 +84,18 @@
                         </tr>
                     {% endfor %}
 
+                    <tr class="position summary">
+                        <td class="clear"></td>
+                        <td class="clear"></td>
+                        <td class="clear"></td>
+                        <td class="last-clear"></td>
+                        <td class="summary-title">Razem:</td>
+                        <td>{{ summary.netValue }}</td>
+                        <td></td>
+                        <td>{{ summary.taxValue }}</td>
+                        <td>{{ summary.grossValue }}</td>
+                    </tr>
+
                     {% for tax in taxSummary %}
                         <tr class="position summary">
                             <td class="clear"></td>
@@ -99,18 +111,6 @@
                             <td>{{ tax.grossValue }}</td>
                         </tr>
                     {% endfor %}
-
-                    <tr class="position summary">
-                        <td class="clear"></td>
-                        <td class="clear"></td>
-                        <td class="clear"></td>
-                        <td class="last-clear"></td>
-                        <td class="summary-title">Razem:</td>
-                        <td>{{ summary.netValue }}</td>
-                        <td></td>
-                        <td>{{ summary.taxValue }}</td>
-                        <td>{{ summary.grossValue }}</td>
-                    </tr>
                 </table>
             </div>
         </div>

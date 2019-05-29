@@ -1,0 +1,18 @@
+{% extends 'base/base-auth.html.twig' %}
+
+{% block title %} - Log in!{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <h1>Sign in</h1>
+
+    {{ form(loginForm) }}
+
+    <p>You don't have account? <a href="{{ path('user-register') }}" class="btn">Register here!</a></p>
+
+</form>
+{% endblock %}
