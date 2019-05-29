@@ -17,8 +17,8 @@ yarn-error.log
 /public/build/*
 !/public/build/.gitkeep
 
-/public/storage/logos/*
-!/public/storage/logos/.gitkeep
+/storage/logos/*
+!/storage/logos/.gitkeep
 
-/public/storage/documents/*
-!/public/storage/documents/.gitkeep
+/storage/documents/*
+!/storage/documents/.gitkeep
