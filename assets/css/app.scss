@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700,300,100,500,900&subset=latin,latin-ext');
+@import '~bootstrap/scss/bootstrap';
+@import './modules/invoice-template';
+@import './vars';
+
+body {
+  font-family: $font-family;
+
+  a {
+    color: $light-blue;
+  }
+
+  .main-container {
+    margin-top: 100px;
+    margin-left: 100px;
+    margin-bottom: 30px;
+    width: calc(100% - 130px);
+  }
+
+  .mt-100 {
+    margin-top: 200px;
+  }
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title of the PDF</title>
+
+    <link rel="stylesheet" href="../public/build/app.css" media="all" />
+</head>
+<body>
+
+    <div id="invoice-template">
+
+        <div class="row">
+            <div class="align-left col-4">
+                {% if logo %}
+                    <img class="logo" src="{{ logo }}">
+                {% endif %}
+            </div>
+            <div class="align-right col-5">
+                <ul class="invoice-details">
+                    <li><strong>Miejsce i data wystawienia:</strong> {{ placeIssue }}, {{ dateIssue }}</li>
+                    <li><strong>Data sprzedaży:<br/></strong> {{ dateSell }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="text-center col-12 mt-30 invoice-title">
+                <strong>{{ invoiceTitle }}</strong>
+            </div>
+        </div>
+
+        <div class="row mt-100 company-info">
+            <div class="col-6 align-left">
+                <h5>Sprzedawca:</h5>
+                <p>
+                    {{ seller.name }}<br/>
+                    {{ seller.address }}<br/>
+                    NIP: {{ seller.nip }}<br/>
+                    {% if seller.regon != '' %}
+                        REGON: {{ seller.regon }}<br/>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-6 align-right text-right">
+                <h5>Nabywca:</h5>
+                <p>
+                    {{ buyer.name }}<br/>
+                    {{ buyer.address }}<br/>
+                    NIP: {{ buyer.nip }}<br/>
+                    {% if buyer.regon != '' %}
+                        REGON: {{ buyer.regon }}<br/>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="invoice-positions">
+                    <tr class="header">
+                        <th width="5%">Lp.</th>
+                        <th width="35%">Nazwa towaru lub usługi</th>
+                        <th width="5%">Jm.</th>
+                        <th width="5%">Ilość</th>
+                        <th width="10%">Cena netto</th>
+                        <th width="10%">Wartość netto</th>
+                        <th width="10%">Stawka VAT</th>
+                        <th width="10%">Kwota VAT</th>
+                        <th width="10%">Wartość brutto</th>
+                    </tr>
+
+                    {% for position in positions %}
+                        <tr class="position">
+                            <td>{{ loop.index }}.</td>
+                            <td>{{ position.name }}</td>
+                            <td>{{ position.unit }}</td>
+                            <td>{{ position.quantity }}</td>
+                            <td>{{ position.netPrice }}</td>
+                            <td>{{ position.netValue }}</td>
+                            <td>{{ position.tax }}</td>
+                            <td>{{ position.taxValue }}</td>
+                            <td>{{ position.grossValue }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for tax in taxSummary %}
+                        <tr class="position summary">
+                            <td class="clear"></td>
+                            <td class="clear"></td>
+                            <td class="clear"></td>
+                            <td class="last-clear"></td>
+                            <td class="summary-title">
+                                {% if loop.index == 1 %}W tym:{% endif %}
+                            </td>
+                            <td>{{ tax.netValue }}</td>
+                            <td>{{ tax.name }}</td>
+                            <td>{{ tax.taxValue }}</td>
+                            <td>{{ tax.grossValue }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    <tr class="position summary">
+                        <td class="clear"></td>
+                        <td class="clear"></td>
+                        <td class="clear"></td>
+                        <td class="last-clear"></td>
+                        <td class="summary-title">Razem:</td>
+                        <td>{{ summary.netValue }}</td>
+                        <td></td>
+                        <td>{{ summary.taxValue }}</td>
+                        <td>{{ summary.grossValue }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-50 payment-summary">
+            <div class="col-5 align-left">
+                <p>Sposob płatności: {{ paymentMethod }}</p>
+                <p>Termin płatności: {{ paymentDeadline }}</p>
+                <p>Numer konta: {{ bankNo }}</p>
+            </div>
+            <div class="col-5 align-right">
+                <p>{% if paid %}Zapłacono{% else %}Do zapłaty{% endif %}: <strong>{{ toPay }}</strong></p>
+                <p>Słownie: {{ toPayInWords }}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 footer text-center">
+                <p>Invoice manager - www.dreamapps.pl</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

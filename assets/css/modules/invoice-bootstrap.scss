@@ -1,0 +1,33 @@
+@import "../vars";
+
+.row {
+  display: block;
+  margin: 15px 0;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.col-4 { width: $invoiceWidth / 3; }
+
+.col-5 { width: $invoiceWidth / 2.5; }
+
+.col-6 { width: $invoiceWidth / 2; }
+
+.col-12 { width: $invoiceWidth; }
+
+
+.mt-50 { margin-top: 50px; }
+
+.mt-30 { margin-top: 30px; }
+
+.mt-100 { margin-top: 100px; }
+
+.text-center { text-align: center; }
+
+.align-right { float: right; }
+
+.align-left { float: left; }

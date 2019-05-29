@@ -1,0 +1,11 @@
+index:
+    path: /
+    controller: App\Controller\HomeController::home
+
+home:
+    path: /home
+    controller: App\Controller\HomeController::home
+
+generate-invoice:
+    path: /invoice/generate
+    controller: App\Controller\InvoiceController::generateInvoice

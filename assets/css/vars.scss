@@ -1,0 +1,44 @@
+// Fonts
+$arial: 'Arial', sans-serif;
+$default: 'DejaVu Sans', sans-serif;
+$font-family: $default;
+$custom-font-family: $arial;
+
+// Screen sizes
+$screen-xl-min: 1920px !default;
+$screen-lg-min: 1200px !default;
+$screen-md-min: 960px !default;
+$screen-sm-min: 740px !default;
+$screen-xs-min: 320px !default;
+
+$screen-lg-max: ($screen-xl-min - 1) !default;
+$screen-md-max: ($screen-lg-min - 1) !default;
+$screen-sm-max: ($screen-md-min - 1) !default;
+$screen-xs-max: ($screen-sm-min - 1) !default;
+
+// Others
+$radius: 2px;
+$invoiceWidth: 700px;
+
+// Colors
+$white: #ffffff;
+$light-grey: #f4f4f4;
+$light-blue: rgba(1, 85, 136, 0.69);
+$dark-blue: #191e31;
+$red-error: #8f1d2e;
+$major-dark-blue: #1F2A40;
+$grey: #555555;
+$dark-grey: #637282;
+$blue-header: #0070E0;
+$background-grey-color: #EBF0F3;
+
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #20a754 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
