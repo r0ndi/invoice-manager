@@ -1,0 +1,17 @@
+"Register": "Register"
+"Login": "Login:"
+"Lastname": "Lastname:"
+"Firstname": "Firstname:"
+"Password": "Password:"
+"Email": "Email:"
+
+"register.title": " - sign up!"
+"register.headline": "Register"
+"register.info": "You have an account?"
+"register.redirect": "Sign in here!"
+
+"login.title": " - sign in!"
+"login.headline": "Login"
+"login.info": "You dont't have an account?"
+"login.redirect": "Register here!"
+
