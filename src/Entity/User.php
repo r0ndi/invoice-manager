@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Table(name="users")
@@ -122,4 +125,38 @@ class User implements UserInterface
     public function getSalt() {}
 
     public function eraseCredentials() {}
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraints('firstname', [
+            new NotBlank([
+                'message' => 'Please enter a firstname',
+            ]),
+            new Length(['min' => 3]),
+        ]);
+
+        $metadata->addPropertyConstraints('lastname', [
+            new NotBlank([
+                'message' => 'Please enter a lastname',
+            ]),
+            new Length(['min' => 3]),
+        ]);
+
+        $metadata->addPropertyConstraints('email', [
+            new NotBlank([
+                'message' => 'Please enter a email',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('password', [
+            new NotBlank([
+                'message' => 'Please enter a password',
+            ]),
+            new Length([
+                'min' => 6,
+                'minMessage' => 'Your password should be at least {{ limit }} characters',
+                'max' => 4096,
+            ]),
+        ]);
+    }
 }

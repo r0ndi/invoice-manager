@@ -15,7 +15,7 @@ class InvoiceService extends Service
         $pdfOptions->setIsRemoteEnabled(true);
 
         $html = $this->getTwig()->render(
-            'template/invoice.html.twig',
+            'template/document/invoice.html.twig',
             $this->getInvoiceData()
         );
 

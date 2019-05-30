@@ -8,6 +8,6 @@ class BaseController extends Controller
 {
     public function header(): Response
     {
-        return $this->render('base/header.html.twig');
+        return $this->render('controller/base/header.html.twig');
     }
 }

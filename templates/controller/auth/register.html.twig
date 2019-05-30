@@ -1,0 +1,13 @@
+{% extends 'base/base-auth.html.twig' %}
+
+{% block title %} - Register{% endblock %}
+
+{% block body %}
+
+    <h1>Register</h1>
+
+    {{ form(registrationForm) }}
+
+    <p>You have an account? <a href="{{ path('user-login') }}" class="btn">Sign in here!</a></p>
+
+{% endblock %}

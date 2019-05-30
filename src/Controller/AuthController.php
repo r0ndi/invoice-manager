@@ -7,11 +7,10 @@ use App\Form\LoginFormType;
 use App\Form\RegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class AuthController extends AbstractController
+class AuthController extends Controller
 {
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -20,7 +19,7 @@ class AuthController extends AbstractController
 
         $form = $this->createForm(LoginFormType::class, $lastUsername);
 
-        return $this->render('auth/login.html.twig', [
+        return $this->render('controller/auth/login.html.twig', [
             'loginForm' => $form->createView(),
             'error' => $error
         ]);
@@ -50,7 +49,7 @@ class AuthController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('auth/register.html.twig', [
+        return $this->render('controller/auth/register.html.twig', [
             'registrationForm' => $form->createView(),
             'errors' => $form->getErrors()
         ]);

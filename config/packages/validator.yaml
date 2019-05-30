@@ -1,10 +1,4 @@
 framework:
     validation:
         email_validation_mode: html5
-
-#    App\Entity\User:
-#        properties:
-#            email:
-#                - NotBlank: ~
-#            password:
-#                - NotBlank: ~
+        enabled: true
