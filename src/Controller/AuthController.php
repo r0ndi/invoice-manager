@@ -17,7 +17,7 @@ class AuthController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $form = $this->createForm(LoginFormType::class, $lastUsername);
+        $form = $this->createForm(LoginFormType::class, ['lastUsername' => $lastUsername]);
 
         return $this->render('controller/auth/login.html.twig', [
             'loginForm' => $form->createView(),
@@ -32,15 +32,10 @@ class AuthController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
             $user->setFirstname($form->get('firstname')->getData());
             $user->setLastname($form->get('lastname')->getData());
             $user->setIsActive(true);
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

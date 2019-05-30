@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="users")
@@ -101,7 +102,7 @@ class User implements UserInterface
         $this->isActive = $isActive;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -129,33 +130,30 @@ class User implements UserInterface
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraints('firstname', [
+            new Length(['min' => 3]),
             new NotBlank([
                 'message' => 'Please enter a firstname',
             ]),
-            new Length(['min' => 3]),
         ]);
 
         $metadata->addPropertyConstraints('lastname', [
+            new Length(['min' => 3]),
             new NotBlank([
                 'message' => 'Please enter a lastname',
             ]),
-            new Length(['min' => 3]),
         ]);
 
         $metadata->addPropertyConstraints('email', [
+            new Email(),
             new NotBlank([
                 'message' => 'Please enter a email',
             ]),
         ]);
 
         $metadata->addPropertyConstraints('password', [
+            new Length(['min' => 6]),
             new NotBlank([
                 'message' => 'Please enter a password',
-            ]),
-            new Length([
-                'min' => 6,
-                'minMessage' => 'Your password should be at least {{ limit }} characters',
-                'max' => 4096,
             ]),
         ]);
     }
