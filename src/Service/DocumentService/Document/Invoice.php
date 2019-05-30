@@ -1,35 +1,62 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\DocumentService\Document;
 
-use Dompdf\Dompdf;
-use Dompdf\Options;
-
-class InvoiceService extends Service
+class Invoice extends Document
 {
-    public function generateInvoice()
+    protected $template = 'template/document/invoice.html.twig';
+
+    public function getFileName(): string
     {
-        $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'DejaVu Sans');
-        $pdfOptions->setIsHtml5ParserEnabled(true);
-        $pdfOptions->setIsRemoteEnabled(true);
-
-        $html = $this->getTwig()->render(
-            'template/document/invoice.html.twig',
-            $this->getInvoiceData()
+        return sprintf(
+            '%s_%s.pdf',
+            'invoice',
+            '01-05-2019'
         );
-
-        $domPdf = new Dompdf($pdfOptions);
-        $domPdf->loadHtml($html, 'UTF-8');
-        $domPdf->setPaper('A4', 'portrait');
-        $domPdf->render();
-
-        $domPdf->stream('test.pdf', [
-            'Attachment' => false
-        ]);
     }
 
-    private function getInvoiceData(): array
+    public function save(): bool
+    {
+        $path = '/Users/konrad/Projects/Private/Applications/Invoice-manager/storage/documents/'; // TODO: move to configuration
+
+        if (!is_writable($path)) {
+            return false;
+        }
+
+        if (!file_put_contents($path . $this->getFileName(), $this->getDomPdf()->output())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function remove(): bool
+    {
+        $path = '/Users/konrad/Projects/Private/Applications/Invoice-manager/storage/documents/'; // TODO: move to configuration
+
+        if (!is_writable($path)) {
+            return false;
+        }
+
+        return unlink($path . $this->getFileName());
+    }
+
+    public function show(): bool
+    {
+        return true;
+    }
+
+    public function download(): bool
+    {
+        $this->getDomPdf()->stream(
+            $this->getFileName(), [
+            'Attachment' => false
+        ]);
+
+        return true;
+    }
+
+    protected function getTemplateData(): array
     {
         return [
             'placeIssue' => 'Laskowa',

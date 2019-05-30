@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-use App\Service\InvoiceService;
+use App\Service\DocumentService\DocumentFactory;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,9 +26,9 @@ class ServiceLocator
         return $this->container;
     }
 
-    public function getInvoiceService(): InvoiceService
+    public function getDocumentService(): DocumentFactory
     {
-        return $this->services['invoiceService'];
+        return $this->services['documentService'];
     }
 
     public function getTranslator(): TranslatorInterface
@@ -38,6 +38,6 @@ class ServiceLocator
 
     private function setUp(): void
     {
-        $this->services['invoiceService'] = new InvoiceService($this->getContainer());
+        $this->services['documentService'] = new DocumentFactory($this->getContainer());
     }
 }
