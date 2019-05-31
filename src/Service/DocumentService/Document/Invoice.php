@@ -4,7 +4,7 @@ namespace App\Service\DocumentService\Document;
 
 class Invoice extends Document
 {
-    protected $template = 'template/document/invoice.html.twig';
+    protected $template = 'invoice.html.twig';
 
     public function getFileName(): string
     {

@@ -13,6 +13,7 @@ abstract class Document extends Service
     private $pdfOptions;
 
     protected $template;
+    protected $path = 'template/document/';
 
     public function __construct(ContainerInterface $container)
     {
@@ -30,7 +31,7 @@ abstract class Document extends Service
 
     protected function getPdfContent(): string
     {
-        return $this->getTwig()->render($this->template, $this->getTemplateData());
+        return $this->getTwig()->render($this->path . $this->template, $this->getTemplateData());
     }
 
     protected function setDomPdf(): void
