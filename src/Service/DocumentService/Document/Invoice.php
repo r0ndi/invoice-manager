@@ -2,6 +2,9 @@
 
 namespace App\Service\DocumentService\Document;
 
+use App\Util\ConfigReader;
+use App\Util\File;
+
 class Invoice extends Document
 {
     protected $template = 'invoice.html.twig';
@@ -17,28 +20,18 @@ class Invoice extends Document
 
     public function save(): bool
     {
-        $path = '/Users/konrad/Projects/Private/Applications/Invoice-manager/storage/documents/'; // TODO: move to configuration
+        $configReader = new ConfigReader();
+        $file = new File($configReader->get('documents.path'), $this->getFileName());
 
-        if (!is_writable($path)) {
-            return false;
-        }
-
-        if (!file_put_contents($path . $this->getFileName(), $this->getDomPdf()->output())) {
-            return false;
-        }
-
-        return true;
+        return $file->clear() && $file->append($this->getDomPdf()->output());
     }
 
     public function remove(): bool
     {
-        $path = '/Users/konrad/Projects/Private/Applications/Invoice-manager/storage/documents/'; // TODO: move to configuration
+        $configReader = new ConfigReader();
+        $file = new File($configReader->get('documents.path'), $this->getFileName());
 
-        if (!is_writable($path)) {
-            return false;
-        }
-
-        return unlink($path . $this->getFileName());
+        return $file->delete();
     }
 
     public function show(): bool
