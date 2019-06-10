@@ -1,7 +1,9 @@
 // Fonts
 $arial: 'Arial', sans-serif;
-$default: 'DejaVu Sans', sans-serif;
+$default: 'Quicksand', sans-serif;
+$pdf-default: 'DejaVu Sans', sans-serif;
 $font-family: $default;
+$pdf-font-family: $pdf-default;
 $custom-font-family: $arial;
 
 // Screen sizes
@@ -27,7 +29,7 @@ $light-blue: rgba(1, 85, 136, 0.69);
 $dark-blue: #191e31;
 $red-error: #8f1d2e;
 $major-dark-blue: #1F2A40;
-$grey: #555555;
+$grey: #eceff4;
 $dark-grey: #637282;
 $blue-header: #0070E0;
 $background-grey-color: #EBF0F3;
@@ -36,7 +38,7 @@ $blue:    #007bff !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
-$red:     #dc3545 !default;
+$red:     #fe0d4d !default;
 $orange:  #fd7e14 !default;
 $yellow:  #ffc107 !default;
 $green:   #20a754 !default;

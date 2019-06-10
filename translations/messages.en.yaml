@@ -1,4 +1,5 @@
 "Register": "Register"
+"Sign in": "Sign in"
 "Login": "Login:"
 "Lastname": "Lastname:"
 "Firstname": "Firstname:"
@@ -10,8 +11,13 @@
 "register.info": "You have an account?"
 "register.redirect": "Sign in here!"
 
-"login.title": " - sign in!"
-"login.headline": "Login"
-"login.info": "You dont't have an account?"
-"login.redirect": "Register here!"
+"title.login": " - sign in!"
+"login.descritpion.headline": "Welcome to invoicer!"
+"login.description.first": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+"login.description.second": "Lorem ipsum dolor sit amet, consectetur adipiscing."
+"login.description.redirect": "Join to us!"
+"form.login.headline": "Sign in"
+"form.login.email": "E-mail"
+"form.login.password": "Password"
+"form.login.submit": "Login"
 

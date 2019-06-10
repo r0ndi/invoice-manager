@@ -13,7 +13,7 @@ yarn-error.log
 /phpunit.xml
 .idea
 /.web-server-pid
-config/config.yaml
+/config/config.yaml
 
 /public/build/*
 !/public/build/.gitkeep

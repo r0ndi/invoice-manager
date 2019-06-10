@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Invoce manager {% block title %}{% endblock %}</title>
+    <title>Invoice manager {% block title %}{% endblock %}</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('../assets/images/favicon.jpg') }}" />
 
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('auth-app') }}
     {% endblock %}
 </head>
 <body>
@@ -17,9 +17,13 @@
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
 
-{% block body %}
-    <!-- Place to content page -->
-{% endblock %}
+<div class="container">
+    <div class="row auth-box">
+        {% block body %}
+            <!-- Place to content page -->
+        {% endblock %}
+    </div>
+</div>
 
 </body>
 </html>

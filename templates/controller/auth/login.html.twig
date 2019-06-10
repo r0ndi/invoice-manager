@@ -1,18 +1,21 @@
 {% extends 'base/base-auth.html.twig' %}
 
-{% block title %}{{ 'login.title'|trans }}{% endblock %}
+{% block title %}{{ 'title.login'|trans }}{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'errors') }}</div>
-    {% endif %}
 
-    <h1>{{ 'login.headline'|trans }}</h1>
+    <div class="col-10 col-md-4 offset-2 auth-left-box">
+        <form method="post">
+            <h1 class="text-center">{{ 'form.login.headline'|trans }}</h1>
+            {{ form(loginForm) }}
+        </form>
+    </div>
 
-    {{ form(loginForm) }}
+    <div class="col-12 col-md-4 auth-right-box text-right">
+        <h3>{{ 'login.descritpion.headline'|trans }}</h3>
+        <p>{{ 'login.description.first'|trans }}</p>
+        <p>{{ 'login.description.second'|trans }}</p>
+        <a href="{{ path('user-register') }}" class="btn">{{ 'login.description.redirect'|trans }}</a>
+    </div>
 
-    <p>{{ 'login.info'|trans }} <a href="{{ path('user-register') }}" class="btn">{{ 'login.redirect'|trans }}</a></p>
-
-</form>
 {% endblock %}

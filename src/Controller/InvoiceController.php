@@ -9,6 +9,6 @@ class InvoiceController extends Controller
     public function generateInvoice()
     {
         $invoice = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class);
-        $invoice->save();
+        $invoice->download();
     }
 }
