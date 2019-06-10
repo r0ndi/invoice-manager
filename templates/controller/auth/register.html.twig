@@ -4,10 +4,18 @@
 
 {% block body %}
 
-    <h1>{{ 'register.headline'|trans }}</h1>
+    <div class="col-10 col-md-4 offset-2 auth-left-box">
+        <form method="post">
+            <h1 class="text-center">{{ 'form.register.headline'|trans }}</h1>
+            {{ form(registrationForm) }}
+        </form>
+    </div>
 
-    {{ form(registrationForm) }}
-
-    <p>{{ 'register.info'|trans }} <a href="{{ path('user-login') }}" class="btn">{{ 'register.redirect'|trans }}</a></p>
-
+    <div class="col-12 col-md-4 auth-right-box text-right">
+        <h3>{{ 'register.descritpion.headline'|trans }}</h3>
+        <p>{{ 'register.description.first'|trans }}</p>
+        <p>{{ 'register.description.second'|trans }}</p>
+        <a href="{{ path('user-login') }}" class="btn">{{ 'register.description.redirect'|trans }}</a>
+    </div>
+    
 {% endblock %}
