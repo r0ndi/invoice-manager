@@ -66,6 +66,8 @@ class NotifyService extends Service
     private function setUp(): void
     {
         $messages = $this->getSession()->get(self::SESSION_KEY, '');
-        $this->messages = unserialize($messages);
+        if (!empty($messages)) {
+            $this->messages = unserialize($messages);
+        }
     }
 }

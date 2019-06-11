@@ -20,16 +20,20 @@
 {% endblock %}
 
 <div class="container">
-    <div class="row">
-        <div class="navigation">
-            {{ render(controller('App\\Controller\\BaseController::navigation')) }}
-        </div>
+    <div class="navigation">
+        {{ render(controller('App\\Controller\\BaseController::navigation')) }}
+    </div>
 
-        <div class="dashboard">
+    <div class="dashboard">
+        <div class="container-fluid">
+            <div class="row header">
+                {{ render(controller('App\\Controller\\BaseController::header')) }}
+            </div>
+
             <div class="row">
-                {#{% block body %}#}
-                    {#<!-- Place to content page -->#}
-                {#{% endblock %}#}
+                {% block body %}
+                    <!-- Place to content page -->
+                {% endblock %}
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 @import './modules/invoice-template';
 @import './modules/navigation';
 @import './modules/dashboard';
+@import './modules/header';
 @import './vars';
 
 body {
@@ -11,5 +12,12 @@ body {
 
   a {
     color: $light-blue;
+  }
+
+  .btn-red {
+    background: $red;
+    padding: 3px 20px;
+    color: $white;
+    border-radius: 25px;
   }
 }
