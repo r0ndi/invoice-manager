@@ -3,6 +3,7 @@
 namespace App\Util;
 
 use App\Service\DocumentService\DocumentFactory;
+use App\Service\NotifyService;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -36,8 +37,14 @@ class ServiceLocator
         return $this->translator;
     }
 
+    public function getNotifyService(): NotifyService
+    {
+        return $this->services['notifyService'];
+    }
+
     private function setUp(): void
     {
         $this->services['documentService'] = new DocumentFactory($this->getContainer());
+        $this->services['notifyService'] = new NotifyService($this->getContainer());
     }
 }

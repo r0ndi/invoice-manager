@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\LoginFormType;
 use App\Form\RegistrationFormType;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -19,9 +20,16 @@ class AuthController extends Controller
 
         $form = $this->createForm(LoginFormType::class, ['lastUsername' => $lastUsername]);
 
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->getServiceLocator()->getNotifyService()->addFormErrors($form->getErrors(true));
+        }
+
+        if ($error) {
+            $this->getServiceLocator()->getNotifyService()->addError($error->getMessage());
+        }
+
         return $this->render('controller/auth/login.html.twig', [
-            'loginForm' => $form->createView(),
-            'error' => $error
+            'loginForm' => $form->createView()
         ]);
     }
 
@@ -42,11 +50,12 @@ class AuthController extends Controller
             $entityManager->flush();
 
             return $this->redirectToRoute('home');
+        } else {
+            $this->getServiceLocator()->getNotifyService()->addFormErrors($form->getErrors(true));
         }
 
         return $this->render('controller/auth/register.html.twig', [
-            'registrationForm' => $form->createView(),
-            'errors' => $form->getErrors()
+            'registrationForm' => $form->createView()
         ]);
     }
 

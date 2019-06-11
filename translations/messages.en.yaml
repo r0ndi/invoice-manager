@@ -6,17 +6,21 @@
 "Password": "Password:"
 "Email": "Email:"
 
-"register.title": " - sign up!"
-"form.register.headline": "Register"
-"register.info": "You have an account?"
-"register.redirect": "Sign in here!"
+"title.register": " - sign up!"
+"title.login": " - sign in!"
+
 "register.descritpion.headline": "Welcome to invoicer!"
 "register.description.first": "Do you have a small business and need a platform on which you will be able to manage your documents? This is something for you."
 "register.description.second": "You have account? Click below and sign in now!"
 "register.description.redirect": "Sign in here!"
+"form.register.headline": "Register"
+"form.register.email": "E-mail"
+"form.register.password": "Password"
+"form.register.firstname": "Firstname"
+"form.register.lastname": "Lastname"
+"form.register.submit": "Register"
 
 
-"title.login": " - sign in!"
 "login.descritpion.headline": "Welcome to invoicer!"
 "login.description.first": "This is a document management platform for a small company. Due to you can manage your invoices."
 "login.description.second": "You don't have account? Click below and join to us!"

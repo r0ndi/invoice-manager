@@ -1,0 +1,11 @@
+"form.password.length": "Password is too short. It should have 6 characters or more."
+"form.password.notBlank": "Please enter a password"
+
+"form.firstname.notBlank": "Please enter a firstname"
+"form.firstname.length": "Firstname is too short. It should have 3 characters or more."
+
+"form.lastname.length": "Lastname is too short. It should have 3 characters or more."
+"form.lastname.notBlank": "Please enter a lastname"
+
+"form.email.notBlank": "Please enter a email"
+

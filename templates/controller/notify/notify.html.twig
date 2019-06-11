@@ -1,0 +1,28 @@
+{% if messages is not empty %}
+    <script>
+        var time = 0;
+        var showMessage = function (message, type) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500
+            });
+
+            Toast.fire({
+                title: message,
+                type: type
+            });
+        };
+
+        {% for message in messages %}
+            {% block javascripts %}
+                setTimeout(function () {
+                    showMessage('{{ message.message }}', '{{ message.type }}');
+                }, time);
+                time += 3000;
+            {% endblock %}
+        {% endfor %}
+    </script>
+{% endif %}
+

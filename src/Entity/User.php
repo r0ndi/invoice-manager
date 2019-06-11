@@ -130,30 +130,39 @@ class User implements UserInterface
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraints('firstname', [
-            new Length(['min' => 3]),
+            new Length([
+                'min' => 3,
+                'minMessage' => 'form.firstname.length'
+            ]),
             new NotBlank([
-                'message' => 'Please enter a firstname',
+                'message' => 'form.firstname.notBlank',
             ]),
         ]);
 
         $metadata->addPropertyConstraints('lastname', [
-            new Length(['min' => 3]),
+            new Length([
+                'min' => 3,
+                'minMessage' => 'form.lastname.length'
+            ]),
             new NotBlank([
-                'message' => 'Please enter a lastname',
+                'message' => 'form.lastname.notBlank',
             ]),
         ]);
 
         $metadata->addPropertyConstraints('email', [
             new Email(),
             new NotBlank([
-                'message' => 'Please enter a email',
+                'message' => 'form.email.notBlank',
             ]),
         ]);
 
         $metadata->addPropertyConstraints('password', [
-            new Length(['min' => 6]),
+            new Length([
+                'min' => 6,
+                'minMessage' => 'form.password.length'
+            ]),
             new NotBlank([
-                'message' => 'Please enter a password',
+                'message' => 'form.password.notBlank',
             ]),
         ]);
     }

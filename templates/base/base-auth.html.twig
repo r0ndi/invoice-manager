@@ -14,7 +14,9 @@
 <body>
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('auth-app') }}
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 {% endblock %}
 
 <div class="container">
@@ -24,6 +26,8 @@
         {% endblock %}
     </div>
 </div>
+
+{{ render(controller('App\\Controller\\NotifyController::notify')) }}
 
 </body>
 </html>

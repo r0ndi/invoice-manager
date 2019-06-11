@@ -4,14 +4,14 @@
 
 {% block body %}
 
-    <div class="col-10 col-md-4 offset-2 auth-left-box">
+    <div class="col-12 col-sm-6 col-md-4 offset-md-2 auth-left-box">
         <form method="post">
             <h1 class="text-center">{{ 'form.login.headline'|trans }}</h1>
             {{ form(loginForm) }}
         </form>
     </div>
 
-    <div class="col-12 col-md-4 auth-right-box text-right">
+    <div class="col-12 col-sm-6 col-md-4 auth-right-box text-right">
         <h3>{{ 'login.descritpion.headline'|trans }}</h3>
         <p>{{ 'login.description.first'|trans }}</p>
         <p>{{ 'login.description.second'|trans }}</p>
