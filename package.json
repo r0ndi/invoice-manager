@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.9.0",
         "@symfony/webpack-encore": "^0.24.0",
         "node-sass": "^4.11.0",
         "sass-loader": "^7.0.1",
@@ -15,6 +16,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.3.1",
+        "font-awesome-webpack": "0.0.5-beta.2",
         "jquery": "^3.3.1",
         "sweetalert2": "^8.12.1",
         "yarn": "^1.16.0"

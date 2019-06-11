@@ -10,4 +10,9 @@ class BaseController extends Controller
     {
         return $this->render('controller/base/header.html.twig');
     }
+
+    public function navigation(): Response
+    {
+        return $this->render('controller/base/navigation.html.twig');
+    }
 }

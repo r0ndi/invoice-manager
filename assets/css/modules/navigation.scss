@@ -1,0 +1,56 @@
+@import "../vars";
+
+.navigation {
+  width: 100px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  color: $white;
+
+  .logo {
+    text-align: center;
+    font-size: 4.5em;
+    margin-top: 25px;
+    color: $grey;
+    padding-bottom: 15px;
+    width: 100%;
+  }
+
+  .items {
+    margin-top: 40px;
+
+    a {
+      color: $dark-grey;
+      height: 50px;
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 0.7em;
+
+      svg {
+        color: $dark-grey;
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+
+      &:hover {
+        color: $white;
+        text-decoration: none;
+
+        svg {
+          color: $white;
+        }
+      }
+    }
+
+    .help {
+      position: absolute;
+      bottom: -20px;
+
+      svg {
+        color: $grey;
+      }
+    }
+  }
+}

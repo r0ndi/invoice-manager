@@ -1,0 +1,10 @@
+@import "../vars";
+
+.dashboard {
+  width: calc(100% - 100px);
+  height: 100%;
+  background: $grey;
+  position: absolute;
+  left: 100px;
+  border-top-left-radius: 25px;
+}
