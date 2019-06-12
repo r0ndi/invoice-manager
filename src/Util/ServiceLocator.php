@@ -3,7 +3,7 @@
 namespace App\Util;
 
 use App\Service\DocumentService\DocumentFactory;
-use App\Service\NotifyService;
+use App\Service\NotifyService\NotifyService;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

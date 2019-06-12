@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\NotifyService;
 
-use App\Util\NotifyMessage;
-use App\Util\NotifyMessageType;
+use App\Service\Service;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormErrorIterator;
 

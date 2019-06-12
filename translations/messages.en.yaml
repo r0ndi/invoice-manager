@@ -8,6 +8,7 @@
 
 "title.register": " - sign up!"
 "title.login": " - sign in!"
+"title.home": " - home"
 
 "register.descritpion.headline": "Welcome to invoicer!"
 "register.description.first": "Do you have a small business and need a platform on which you will be able to manage your documents? This is something for you."
@@ -30,3 +31,9 @@
 "form.login.password": "Password"
 "form.login.submit": "Login"
 
+"header.logOut": "Log out"
+
+"navigation.contractors": "Contractors"
+"navigation.addDocument": "+ document"
+"navigation.documents": "Documents"
+"navigation.account": "Account"

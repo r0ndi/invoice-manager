@@ -1,3 +1,8 @@
 <div class="col-12">
-    <p class="float-right"><strong>{{ app.user.firstname }} {{ app.user.lastname }}</strong> <a class="btn btn-red" href="{{ path('user-logout') }}"><i class="fas fa-sign-out-alt"></i> log out</a></p>
+    <p class="float-right">
+        <strong>{{ app.user.firstname }} {{ app.user.lastname }}</strong>
+        <a class="btn btn-red" href="{{ path('user-logout') }}">
+            <i class="fas fa-sign-out-alt"></i> {{ 'header.logOut'|trans }}
+        </a>
+    </p>
 </div>
