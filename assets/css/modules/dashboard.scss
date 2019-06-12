@@ -7,4 +7,23 @@
   position: absolute;
   left: 100px;
   border-top-left-radius: 25px;
+
+  .dashboard-container {
+    padding: 15px;
+    margin: 30px 15px;
+
+    .dashboard-header {
+      padding: 0 0 20px;
+
+      a {
+        svg {
+          margin: 0 2px 0 -5px;
+        }
+      }
+    }
+
+    .dashboard-content {
+
+    }
+  }
 }

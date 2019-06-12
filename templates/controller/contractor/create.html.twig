@@ -1,0 +1,24 @@
+{% extends 'base/base.html.twig' %}
+
+{% block title %}{{ 'title.contractor.create'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 dashboard-header">
+                <h2>
+                    {{ 'contractor.create.header.title'|trans }}
+                    <a href="{{ path('contractor-list') }}" class="btn btn-red-outline float-right">
+                        {{ 'contractor.create.header.redirect'|trans }}
+                    </a>
+                </h2>
+            </div>
+
+            <div class="col-12 dashboard-content">
+                {{ form(contractorForm) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

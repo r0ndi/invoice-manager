@@ -5,10 +5,8 @@
 {% block body %}
 
     <div class="col-12 col-sm-6 col-md-4 offset-md-2 auth-left-box">
-        <form method="post">
-            <h1 class="text-center">{{ 'form.login.headline'|trans }}</h1>
-            {{ form(loginForm) }}
-        </form>
+        <h1 class="text-center">{{ 'form.login.headline'|trans }}</h1>
+        {{ form(loginForm) }}
     </div>
 
     <div class="col-12 col-sm-6 col-md-4 auth-right-box text-right">

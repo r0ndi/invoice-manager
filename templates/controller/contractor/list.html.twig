@@ -1,0 +1,39 @@
+{% extends 'base/base.html.twig' %}
+
+{% block title %}{{ 'title.contractor.list'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 dashboard-header">
+                <h2>
+                    {{ 'contractor.list.header.title'|trans }}
+                    <a href="{{ path('contractor-create') }}" class="btn btn-red-outline float-right">
+                        <i class="fas fa-plus"></i> {{ 'contractor.list.header.redirect'|trans }}
+                    </a>
+                </h2>
+            </div>
+
+            <div class="col-12 dashboard-content">
+                <table class="table table-responsive table-bordered table-sm table-striped">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>NIP</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for contractor in contractors %}
+                        <tr>
+                            <td>{{ loop.index }}.</td>
+                            <td>{{ contractor.name }}</td>
+                            <td>{{ contractor.nip }}</td>
+                            <td>-</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

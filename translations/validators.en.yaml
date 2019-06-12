@@ -9,3 +9,18 @@
 
 "form.email.notBlank": "Please enter a email"
 
+"form.name.length": "Name is too short. It should have 3 characters or more."
+"form.name.notBlank": "Please enter a name"
+
+"form.address.length": "Address is too short. It should have 3 characters or more."
+"form.address.notBlank": "Please enter a address"
+
+"form.city.length": "City is too short. It should have 3 characters or more."
+"form.city.notBlank": "Please enter a city"
+
+"form.postcode.length": "Postcode is too short. It should have 5 characters or more."
+"form.postcode.notBlank": "Please enter a postcode"
+
+"form.nip.length": "Nip is too short. It should have 9 characters or more."
+"form.nip.notBlank": "Please enter a nip"
+

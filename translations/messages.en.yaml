@@ -9,6 +9,8 @@
 "title.register": " - sign up!"
 "title.login": " - sign in!"
 "title.home": " - home"
+"title.contractor.list": " - contractors list"
+"title.contractor.create": " - create new contractor"
 
 "register.descritpion.headline": "Welcome to invoicer!"
 "register.description.first": "Do you have a small business and need a platform on which you will be able to manage your documents? This is something for you."
@@ -37,3 +39,10 @@
 "navigation.addDocument": "+ document"
 "navigation.documents": "Documents"
 "navigation.account": "Account"
+
+"contractor.list.header.title": "Contractors list"
+"contractor.list.header.redirect": "Create new contractor"
+
+"contractor.create.header.title": "Create new contractor"
+"contractor.create.header.redirect": "Contractors list"
+"contractor.create.success": "Created new contractor!"

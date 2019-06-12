@@ -39,6 +39,12 @@ class NotifyService extends Service
         return $messages;
     }
 
+    public function addSuccess(string $message): void
+    {
+        $notifyMessage = new NotifyMessage(NotifyMessageType::SUCCESS, $message);
+        $this->addMessage($notifyMessage);
+    }
+
     public function addError(string $message): void
     {
         $notifyMessage = new NotifyMessage(NotifyMessageType::ERROR, $message);
