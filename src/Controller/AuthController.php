@@ -39,16 +39,15 @@ class AuthController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
-            $user->setFirstname($form->get('firstname')->getData());
-            $user->setLastname($form->get('lastname')->getData());
-            $user->setIsActive(true);
+            $userRepository = $this->getDoctrine()->getRepository(User::class);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            if ($userRepository->createFromForm($form, $passwordEncoder)) {
+                $this->getServiceLocator()->getNotifyService()->addSuccess(
+                    $this->getServiceLocator()->getTranslator()->trans('register.create.success')
+                );
 
-            return $this->redirectToRoute('home');
+                return $this->redirectToRoute('home');
+            }
         } else {
             $this->getServiceLocator()->getNotifyService()->addFormErrors($form->getErrors(true));
         }

@@ -16,13 +16,13 @@
 "register.description.first": "Do you have a small business and need a platform on which you will be able to manage your documents? This is something for you."
 "register.description.second": "You have account? Click below and sign in now!"
 "register.description.redirect": "Sign in here!"
+"register.create.success": "You have just created a new account. Congratulations!"
 "form.register.headline": "Register"
 "form.register.email": "E-mail"
 "form.register.password": "Password"
 "form.register.firstname": "Firstname"
 "form.register.lastname": "Lastname"
 "form.register.submit": "Register"
-
 
 "login.descritpion.headline": "Welcome to invoicer!"
 "login.description.first": "This is a document management platform for a small company. Due to you can manage your invoices."
