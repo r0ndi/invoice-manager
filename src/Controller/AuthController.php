@@ -27,6 +27,10 @@ class AuthController extends Controller
             $this->getServiceLocator()->getNotifyService()->addError($error->getMessage());
         }
 
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->getServiceLocator()->getNotifyService()->addFormErrors($form->getErrors(true));
+        }
+
         return $this->render('controller/auth/login.html.twig', [
             'loginForm' => $form->createView()
         ]);
@@ -48,7 +52,9 @@ class AuthController extends Controller
 
                 return $this->redirectToRoute('home');
             }
-        } else {
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
             $this->getServiceLocator()->getNotifyService()->addFormErrors($form->getErrors(true));
         }
 

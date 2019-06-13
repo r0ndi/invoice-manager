@@ -34,7 +34,9 @@ class ContractorController extends Controller
 
                 return $this->redirectToRoute('contractor-list');
             }
-        } else {
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
             $this->getServiceLocator()->getNotifyService()->addFormErrors($form->getErrors(true));
         }
 
