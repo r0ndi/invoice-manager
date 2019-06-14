@@ -11,6 +11,7 @@
 "title.home": " - home"
 "title.contractor.list": " - contractors list"
 "title.contractor.create": " - create new contractor"
+"title.contractor.edit": " - edit contractor"
 
 "register.descritpion.headline": "Welcome to invoicer!"
 "register.description.first": "Do you have a small business and need a platform on which you will be able to manage your documents? This is something for you."
@@ -42,7 +43,28 @@
 
 "contractor.list.header.title": "Contractors list"
 "contractor.list.header.redirect": "Create new contractor"
+"contractor.list.lp": "#"
+"contractor.list.name": "Company name"
+"contractor.list.nip": "NIP"
+"contractor.list.action": "Action"
+"contractor.list.status": "Change status"
+"contractor.list.edit": "Edit"
 
 "contractor.create.header.title": "Create new contractor"
 "contractor.create.header.redirect": "Contractors list"
 "contractor.create.success": "Created new contractor!"
+"form.contractor.name": "Company name"
+"form.contractor.address": "Address"
+"form.contractor.city": "City"
+"form.contractor.postcode": "Postcode"
+"form.contractor.nip": "NIP number"
+"form.contractor.regon": "Regon number"
+"form.contractor.bankNo": "Bank number"
+"form.contractor.submit": "Save"
+
+"contractor.status.change.notFound": "Contractor not found"
+"contractor.status.change.success": "Status has changed"
+
+"contractor.edit.header.title": "Edit contractor"
+"contractor.edit.header.redirect": "Contractors list"
+"contractor.edit.success": "Contractor has edited"

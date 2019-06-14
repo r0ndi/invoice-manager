@@ -16,19 +16,28 @@
             </div>
 
             <div class="col-12 dashboard-content">
-                <table class="table table-responsive table-bordered table-sm table-striped">
+                <table class="table table-bordered table-sm table-striped">
                     <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>NIP</th>
-                        <th>Action</th>
+                        <th width="5%">{{ 'contractor.list.lp'|trans }}</th>
+                        <th width="55%">{{ 'contractor.list.name'|trans }}</th>
+                        <th width="20%">{{ 'contractor.list.nip'|trans }}</th>
+                        <th width="20%">{{ 'contractor.list.action'|trans }}</th>
                     </tr>
                     {% for contractor in contractors %}
                         <tr>
                             <td>{{ loop.index }}.</td>
                             <td>{{ contractor.name }}</td>
                             <td>{{ contractor.nip }}</td>
-                            <td>-</td>
+                            <td>
+                                <a href="{{ path('contractor-change-status', {'idContractor': contractor.id }) }}" class="badge badge-warning">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    {{ 'contractor.list.status'|trans }}
+                                </a>
+                                <a href="{{ path('contractor-edit', {'idContractor': contractor.id }) }}" class="badge badge-danger">
+                                    <i class="fas fa-edit"></i>
+                                    {{ 'contractor.list.edit'|trans }}
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </table>

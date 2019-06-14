@@ -24,14 +24,14 @@ body {
     &:hover {
       background: none;
       border: 2px solid $red;
-      color: $dark;
+      color: $dark-blue;
     }
   }
 
   .btn-red-outline {
     border: 2px solid $red;
     padding: 3px 20px;
-    color: $dark;
+    color: $dark-blue;
     border-radius: 25px;
 
     &:hover {

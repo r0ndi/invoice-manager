@@ -29,3 +29,11 @@ contractor-list:
 contractor-create:
     path: /contractor/create
     controller: App\Controller\ContractorController::create
+
+contractor-edit:
+    path: /contractor/{idContractor}/edit
+    controller: App\Controller\ContractorController::edit
+
+contractor-change-status:
+    path: /contractor/{idContractor}/status/change
+    controller: App\Controller\ContractorController::changeStatus
