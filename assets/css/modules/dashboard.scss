@@ -2,7 +2,7 @@
 
 .dashboard {
   width: calc(100% - 100px);
-  height: 100%;
+  min-height: 100%;
   background: $grey;
   position: absolute;
   left: 100px;
@@ -29,7 +29,8 @@
         background: $white;
 
         label {
-          display: none;
+          display: block;
+          margin-left: 5%;
         }
 
         input {
@@ -51,6 +52,15 @@
           &:hover {
             background: none;
             color: $dark-blue;
+          }
+        }
+
+        .position {
+          margin: 30px 0 50px;
+
+          label {
+            font-size: .9em;
+            margin-bottom: 0;
           }
         }
       }

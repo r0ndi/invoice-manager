@@ -70,4 +70,11 @@ class ContractorRepository extends ServiceEntityRepository
 
         return $contractor;
     }
+
+    public function getAllToForm(): array
+    {
+        return array_map(function (Contractor $contractor) {
+            return [$contractor->getName() => $contractor->getId()];
+        }, $this->findAll());
+    }
 }

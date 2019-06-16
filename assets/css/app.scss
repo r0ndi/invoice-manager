@@ -4,6 +4,8 @@
 @import './modules/navigation';
 @import './modules/dashboard';
 @import './modules/header';
+@import './lib/date-picker';
+@import './lib/select';
 @import './vars';
 
 body {
@@ -31,7 +33,7 @@ body {
   .btn-red-outline {
     border: 2px solid $red;
     padding: 3px 20px;
-    color: $dark-blue;
+    color: $dark;
     border-radius: 25px;
 
     &:hover {

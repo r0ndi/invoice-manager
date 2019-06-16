@@ -37,3 +37,7 @@ contractor-edit:
 contractor-change-status:
     path: /contractor/{idContractor}/status/change
     controller: App\Controller\ContractorController::changeStatus
+
+document-create:
+    path: /document/create
+    controller: App\Controller\DocumentController::create
