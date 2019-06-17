@@ -24,3 +24,21 @@
 "form.nip.length": "Nip is too short. It should have 9 characters or more."
 "form.nip.notBlank": "Please enter a nip"
 
+"form.paymentMethod.notBlank": "Please enter a payment method"
+
+"form.documentType.notBlank": "Please enter a document type"
+
+"form.buyer.notBlank": "Please enter a buyer"
+
+"form.seller.notBlank": "Please enter a seller"
+
+"form.placeIssue.notBlank": "Please enter a place issue"
+"form.placeIssue.length": "Place issue is too short. It should have 3 characters or more."
+
+"form.title.notBlank": "Please enter a title"
+"form.title.length": "Title is too short. It should have 3 characters or more."
+
+"form.dateIssue.notBlank": "Please enter a date issue"
+
+"form.dateSell.notBlank": "Please enter a date sell"
+

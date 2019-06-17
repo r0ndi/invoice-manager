@@ -3,7 +3,12 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Table(name="documents")
@@ -86,6 +91,16 @@ class Document
      * @ORM\Column(name="payment_date_limit", type="datetime")
      */
     private $paymentDateLimit;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DocumentPositions", mappedBy="document")
+     */
+    private $positions;
+
+    public function __construct()
+    {
+        $this->positions = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -221,4 +236,70 @@ class Document
     {
         $this->paymentDateLimit = $paymentDateLimit;
     }
+
+    public function getPositions(): Collection
+    {
+        return $this->positions;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraints('title', [
+            new Length([
+                'min' => 3,
+                'minMessage' => 'form.title.length'
+            ]),
+            new NotBlank([
+                'message' => 'form.title.notBlank',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('dateSell', [
+            new NotBlank([
+                'message' => 'form.dateSell.notBlank',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('dateIssue', [
+            new NotBlank([
+                'message' => 'form.dateIssue.notBlank',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('placeIssue', [
+            new Length([
+                'min' => 3,
+                'minMessage' => 'form.placeIssue.length'
+            ]),
+            new NotBlank([
+                'message' => 'form.placeIssue.notBlank',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('seller', [
+            new NotBlank([
+                'message' => 'form.seller.notBlank',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('buyer', [
+            new NotBlank([
+                'message' => 'form.buyer.notBlank',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('documentType', [
+            new NotBlank([
+                'message' => 'form.documentType.notBlank',
+            ]),
+        ]);
+
+        $metadata->addPropertyConstraints('paymentMethod', [
+            new NotBlank([
+                'message' => 'form.paymentMethod.notBlank',
+            ]),
+        ]);
+
+    }
+
 }

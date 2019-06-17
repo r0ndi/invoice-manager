@@ -72,7 +72,7 @@ class DocumentFormType extends AbstractType
             ])
             ->add('positionUtil', ChoiceType::class, [
                 'label' => 'form.document.label.positionUtil',
-                'choices' => ['usł.' => 1, 'szt.' => 2, 'godz.' => 3],
+                'choices' => $options['data']['utils'] ?? [],
                 'attr' => [
                     'class' => 'select-picker'
                 ]
@@ -98,7 +98,7 @@ class DocumentFormType extends AbstractType
             ])
             ->add('positionTax', ChoiceType::class, [
                 'label' => 'form.document.label.positionTax',
-                'choices' => ['23%' => 1, '8%' => 2],
+                'choices' => $options['data']['taxes'] ?? [],
                 'attr' => [
                     'class' => 'select-picker'
                 ]
