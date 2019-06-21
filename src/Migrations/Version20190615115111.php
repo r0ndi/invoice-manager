@@ -31,7 +31,7 @@ final class Version20190615115111 extends AbstractMigration implements Container
         $paymentMethods = ['przelew', 'gotówka'];
         $this->addItems(PaymentMethod::class, $paymentMethods);
 
-        $taxes = [23,8,5,0];
+        $taxes = ['23%','8%','5%','0%'];
         $this->addItems(Tax::class, $taxes);
 
         $utils = ['usł.', 'szt.', 'godz.', 'dni'];
@@ -56,6 +56,10 @@ final class Version20190615115111 extends AbstractMigration implements Container
         foreach ($items as $item) {
             $object = new $entityName();
             $object->setName($item);
+
+            if ($entityName === Tax::class) {
+                $object->setValue((float)$item);
+            }
 
             $this->getEntityManager()->persist($object);
         }

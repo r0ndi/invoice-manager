@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -93,7 +93,7 @@ class Document
     private $paymentDateLimit;
 
     /**
-     * @ORM\OneToMany(targetEntity="DocumentPositions", mappedBy="document")
+     * @ORM\OneToMany(targetEntity="DocumentPosition", mappedBy="document")
      */
     private $positions;
 
