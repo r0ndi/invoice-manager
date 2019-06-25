@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\User;
 use DateTime;
 use App\Entity\Contractor;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\FormInterface;
 
@@ -15,7 +14,7 @@ use Symfony\Component\Form\FormInterface;
  * @method Contractor[]    findAll()
  * @method Contractor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ContractorRepository extends ServiceEntityRepository
+class ContractorRepository extends BaseRepository
 {
     public function __construct(RegistryInterface $registry)
     {
@@ -69,12 +68,5 @@ class ContractorRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
 
         return $contractor;
-    }
-
-    public function getAllToForm(): array
-    {
-        return array_map(function (Contractor $contractor) {
-            return [$contractor->getName() => $contractor->getId()];
-        }, $this->findAll());
     }
 }
