@@ -2,8 +2,7 @@
 
 namespace App\Service\DocumentService\Document;
 
-use App\Util\ConfigReader;
-use App\Util\File;
+use App\Entity\Document as DocumentEntity;
 
 class Invoice extends Document
 {
@@ -11,42 +10,45 @@ class Invoice extends Document
 
     public function getFileName(): string
     {
+        $title = $this->getDocumentEntity()->getTitle();
+        $title = trim(preg_replace('/[a-zA-Z]/', '', $title));
+        $title = str_replace(['/', '\\', '_', ' '], '-', $title);
+
         return sprintf(
             '%s_%s.pdf',
             'invoice',
-            '01-05-2019'
+            $title
         );
     }
 
     public function save(): bool
     {
-        $configReader = new ConfigReader();
-        $file = new File($configReader->get('documents.path'), $this->getFileName());
+        $this->getPdfFile()->append($this->getDomPdf()->output());
+        $this->setPdfFile();
 
-        return $file->clear() && $file->append($this->getDomPdf()->output());
+        return true;
     }
 
     public function remove(): bool
     {
-        $configReader = new ConfigReader();
-        $file = new File($configReader->get('documents.path'), $this->getFileName());
-
-        return $file->delete();
+        return $this->getPdfFile()->delete();
     }
 
-    public function show(): bool
+    public function preview(): void
     {
-        return true;
+        header('Content-type: application/pdf');
+        header('Content-Disposition: inline; filename=' . $this->getFileName());
+        header('Cache-Control: private, max-age=0, must-revalidate');
+        echo $this->getPdfFile()->getContent();
+        exit;
     }
 
-    public function download(): bool
+    public function download(): void
     {
-        $this->getDomPdf()->stream(
-            $this->getFileName(), [
-            'Attachment' => false
-        ]);
-
-        return true;
+        header('Content-type: application/pdf');
+        header('Content-Disposition: attachment; filename=' . $this->getFileName());
+        echo $this->getPdfFile()->getContent();
+        exit;
     }
 
     protected function getTemplateData(): array

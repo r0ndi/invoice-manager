@@ -9,11 +9,21 @@ use App\Entity\PaymentMethod;
 use App\Entity\Tax;
 use App\Entity\Util;
 use App\Form\DocumentFormType;
+use App\Service\DocumentService\Document\Invoice;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
 {
+    public function list(): Response
+    {
+        $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+
+        return $this->render('controller/document/list.html.twig', [
+            'documents' => $documentRepository->findBy(['user' => $this->getUser(), 'status' => true]),
+        ]);
+    }
+
     public function create(Request $request): Response
     {
         $document = new Document();
@@ -35,8 +45,19 @@ class DocumentController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getNormData());
-            exit(';)');
+            $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+
+            if ($documentRepository->createFromForm($form, $this->getUser())) {
+                $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class);
+
+                if ($documentService->save()) {
+                    $this->getServiceLocator()->getNotifyService()->addSuccess(
+                        $this->getServiceLocator()->getTranslator()->trans('document.create.success')
+                    );
+
+                    return $this->redirectToRoute('document-list');
+                }
+            }
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {
@@ -46,5 +67,63 @@ class DocumentController extends Controller
         return $this->render('controller/document/create.html.twig', [
             'documentForm' => $form->createView()
         ]);
+    }
+
+    public function delete(int $idDocument): Response
+    {
+        $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+        $document = $documentRepository->find($idDocument);
+
+        if (!$document) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('document.delete.notFound')
+            );
+
+            return $this->redirectToRoute('document-list');
+        }
+
+        if ($documentRepository->changeStatus($document)) {
+            $this->getServiceLocator()->getNotifyService()->addSuccess(
+                $this->getServiceLocator()->getTranslator()->trans('document.delete.success')
+            );
+        }
+
+        return $this->redirectToRoute('document-list');
+    }
+
+    public function download(int $idDocument): Response
+    {
+        $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+        $document = $documentRepository->find($idDocument);
+
+        if (!($document instanceof Document)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('document.download.notFound')
+            );
+
+            return $this->redirectToRoute('document-list');
+        }
+
+        $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
+        $documentService->download();
+        exit;
+    }
+
+    public function preview(int $idDocument): Response
+    {
+        $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+        $document = $documentRepository->find($idDocument);
+
+        if (!($document instanceof Document)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('document.preview.notFound')
+            );
+
+            return $this->redirectToRoute('document-list');
+        }
+
+        $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
+        $documentService->preview();
+        exit;
     }
 }

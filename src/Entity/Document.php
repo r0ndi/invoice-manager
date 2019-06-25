@@ -93,6 +93,11 @@ class Document
     private $paymentDateLimit;
 
     /**
+     * @ORM\Column(type="boolean", options={"default" : true})
+     */
+    private $status;
+
+    /**
      * @ORM\OneToMany(targetEntity="DocumentPosition", mappedBy="document")
      */
     private $positions;
@@ -235,6 +240,16 @@ class Document
     public function setPaymentDateLimit(DateTime $paymentDateLimit): void
     {
         $this->paymentDateLimit = $paymentDateLimit;
+    }
+
+    public function getStatus(): bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status)
+    {
+        $this->status = $status;
     }
 
     public function getPositions(): Collection

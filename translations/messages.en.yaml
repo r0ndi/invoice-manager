@@ -74,6 +74,22 @@
 
 "document.create.header.title": "Creating new document"
 "document.create.header.redirect": "Documents list"
+"document.create.success": "Created new document!"
+
+"document.delete.notFound": "Document not found"
+"document.delete.success": "Document has been deleted"
+
+"document.list.header.title": "Documents list"
+"document.list.header.redirect": "Create new document"
+"document.list.lp": "#"
+"document.list.name": "Document name"
+"document.list.dateAdded": "Date added"
+"document.list.action": "Action"
+"document.list.delete": "Delete"
+"document.list.edit": "Edit"
+"document.list.preview": "Preview"
+"document.list.download": "Download"
+
 "form.document.label.documentType": "Document type:"
 "form.document.label.title": "Document number:"
 "form.document.title": "Faktura VAT nr 01/07/2019"

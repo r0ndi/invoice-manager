@@ -41,3 +41,19 @@ contractor-change-status:
 document-create:
     path: /document/create
     controller: App\Controller\DocumentController::create
+
+document-list:
+    path: /document/list
+    controller: App\Controller\DocumentController::list
+
+document-delete:
+    path: /document/{idDocument}/delete
+    controller: App\Controller\DocumentController::delete
+
+document-preview:
+    path: /document/{idDocument}/preview
+    controller: App\Controller\DocumentController::preview
+
+document-download:
+    path: /document/{idDocument}/download
+    controller: App\Controller\DocumentController::download

@@ -4,6 +4,7 @@ namespace App\Service\DocumentService;
 
 use App\Exception\DocumentException;
 use App\Exception\InvoiceManagerException;
+use App\Entity\Document as DocumentEntity;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\DocumentService\Document\Document;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -17,10 +18,10 @@ class DocumentFactory implements Factory
         $this->container = $container;
     }
 
-    public function getDocument(string $documentClass): Document
+    public function getDocument(string $documentClass, DocumentEntity $documentEntity): Document
     {
         if (class_exists($documentClass)) {
-            return new $documentClass($this->container);
+            return new $documentClass($this->container, $documentEntity);
         }
 
         throw new DocumentException(

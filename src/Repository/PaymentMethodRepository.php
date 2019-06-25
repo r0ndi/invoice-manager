@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\PaymentMethod;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,17 +11,10 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method PaymentMethod[]    findAll()
  * @method PaymentMethod[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PaymentMethodRepository extends ServiceEntityRepository
+class PaymentMethodRepository extends BaseRepository
 {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, PaymentMethod::class);
-    }
-
-    public function getAllToForm(): array
-    {
-        return array_map(function (PaymentMethod $paymentMethod) {
-            return [$paymentMethod->getName() => $paymentMethod->getId()];
-        }, $this->findAll());
     }
 }

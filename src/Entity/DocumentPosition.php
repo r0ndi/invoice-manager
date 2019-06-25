@@ -29,7 +29,8 @@ class DocumentPosition
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Util", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="id_util", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $util;
 
@@ -44,7 +45,8 @@ class DocumentPosition
     private $quantity;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="Tax", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="id_tax", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $tax;
 
@@ -73,12 +75,12 @@ class DocumentPosition
         $this->name = $name;
     }
 
-    public function getUtil(): ?string
+    public function getUtil(): ?Util
     {
         return $this->util;
     }
 
-    public function setUtil(string $util): void
+    public function setUtil(Util $util): void
     {
         $this->util = $util;
     }
@@ -103,12 +105,12 @@ class DocumentPosition
         $this->quantity = $quantity;
     }
 
-    public function getTax(): ?int
+    public function getTax(): ?Tax
     {
         return $this->tax;
     }
 
-    public function setTax(int $tax): void
+    public function setTax(Tax $tax): void
     {
         $this->tax = $tax;
     }

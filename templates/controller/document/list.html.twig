@@ -1,0 +1,56 @@
+{% extends 'base/base.html.twig' %}
+
+{% block title %}{{ 'title.document.list'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 dashboard-header">
+                <h2>
+                    {{ 'document.list.header.title'|trans }}
+                    <a href="{{ path('document-create') }}" class="btn btn-red-outline float-right">
+                        <i class="fas fa-plus"></i> {{ 'document.list.header.redirect'|trans }}
+                    </a>
+                </h2>
+            </div>
+
+            <div class="col-12 dashboard-content">
+                <table class="table table-bordered table-sm table-striped">
+                    <tr>
+                        <th width="5%">{{ 'document.list.lp'|trans }}</th>
+                        <th width="45%">{{ 'document.list.name'|trans }}</th>
+                        <th width="20%">{{ 'document.list.dateAdded'|trans }}</th>
+                        <th width="30%">{{ 'document.list.action'|trans }}</th>
+                    </tr>
+                    {% for document in documents %}
+                        <tr>
+                            <td>{{ loop.index }}.</td>
+                            <td>{{ document.title }}</td>
+                            <td>{{ document.dateAdded|date('Y-m-d') }}</td>
+                            <td>
+                                <a href="{{ path('document-delete', {'idDocument': document.id }) }}" class="badge badge-warning">
+                                    <i class="fas fa-trash-alt"></i>
+                                    {{ 'document.list.delete'|trans }}
+                                </a>
+                                <a href="{{ path('contractor-edit', {'idContractor': document.id }) }}" class="badge badge-danger">
+                                    <i class="fas fa-edit"></i>
+                                    {{ 'document.list.edit'|trans }}
+                                </a>
+                                <a href="{{ path('document-preview', {'idDocument': document.id }) }}" class="badge badge-info" target="_blank">
+                                    <i class="fas fa-search-dollar"></i>
+                                    {{ 'document.list.preview'|trans }}
+                                </a>
+                                <a href="{{ path('document-download', {'idDocument': document.id }) }}" class="badge badge-dark">
+                                    <i class="fas fa-download"></i>
+                                    {{ 'document.list.download'|trans }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
