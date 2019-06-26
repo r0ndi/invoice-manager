@@ -18,10 +18,6 @@ user-logout:
     path: /logout
     methods: GET
 
-generate-invoice:
-    path: /invoice/generate
-    controller: App\Controller\InvoiceController::generateInvoice
-
 contractor-list:
     path: /contractor/list
     controller: App\Controller\ContractorController::list
