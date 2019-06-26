@@ -53,39 +53,42 @@ class Invoice extends Document
 
     protected function getTemplateData(): array
     {
+        $document = $this->getDocumentEntity();
+        $position = $document->getPositions()->first();
+
         return [
-            'placeIssue' => 'Laskowa',
-            'dateIssue' => '2019-05-31',//date('Y-m-d'),
-            'dateSell' => '2019-05-31',//date('Y-m-d'),
+            'placeIssue' => $document->getPlaceIssue(),
+            'dateIssue' => date('Y-m-d', strtotime($document->getDateIssue())),
+            'dateSell' => date('Y-m-d', strtotime($document->getDateSell())),
             'logo' => '../storage/logos/logo-1.png',
-            'invoiceTitle' => 'Faktura VAT nr 02/05/2019',
-            'paid' => false,
-            'paymentMethod' => 'przelew',
-            'paymentDeadline' => '2019-06-10',//date('Y-m-d', strtotime('+ 10 DAY')),
-            'bankNo' => '34 1050 1445 1000 0092 5036 1947',
+            'invoiceTitle' => $document->getTitle(),
+            'paid' => $document->getPaid(),
+            'paymentMethod' => $document->getPaymentMethod()->getName(),
+            'paymentDeadline' => date('Y-m-d', strtotime($document->getPaymentDateLimit())),
+            'bankNo' => $document->getBankNo(),
             'toPay' => '10 455,00 PLN',
             'toPayInWords' => 'dziesięć tysięcy cztersyta piędziesiąt pięć PLN',
             'seller' => [
-                'name' => 'Dream Apps Konrad Sądel',
-                'address' => 'Laskowa 645, 34-602 Laskowa',
-                'nip' => '7372210996',
-                'regon' => '',
+                'name' => $document->getSeller()->getName(),
+                'address' => $document->getSeller()->getFullAddress(),
+                'nip' => $document->getSeller()->getNip(),
+                'regon' => $document->getSeller()->getRegon(),
             ],
             'buyer' => [
-                'name' => 'PRINTBOX SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ',
-                'address' => 'Rynek Główny 17, 31-008 Kraków',
-                'nip' => '6762470210',
-                'regon' => '',
+                'name' => $document->getBuyer()->getName(),
+                'address' => $document->getBuyer()->getFullAddress(),
+                'nip' => $document->getBuyer()->getNip(),
+                'regon' => $document->getBuyer()->getRegon(),
             ],
             'positions' => [
                 [
-                    'name' => 'Usługi programistyczne',
-                    'unit' => 'usł.',
-                    'quantity' => 1,
+                    'name' => $position->getName(),
+                    'unit' => $position->getUtil()->getName(),
+                    'quantity' => $position->getQauntity(),
                     'netPrice' => '8 500,00',
                     'netValue' => '8 500,00',
                     'grossValue' => '10 455,00',
-                    'tax' => '23%',
+                    'tax' => $position->getTax()->getName(),
                     'taxValue' => '1 955,00'
                 ]
             ],

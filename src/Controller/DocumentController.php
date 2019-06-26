@@ -48,7 +48,7 @@ class DocumentController extends Controller
             $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
 
             if ($documentRepository->createFromForm($form, $this->getUser())) {
-                $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class);
+                $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
 
                 if ($documentService->save()) {
                     $this->getServiceLocator()->getNotifyService()->addSuccess(
@@ -83,9 +83,13 @@ class DocumentController extends Controller
         }
 
         if ($documentRepository->changeStatus($document)) {
-            $this->getServiceLocator()->getNotifyService()->addSuccess(
-                $this->getServiceLocator()->getTranslator()->trans('document.delete.success')
-            );
+            $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
+
+            if ($documentService->remove()) {
+                $this->getServiceLocator()->getNotifyService()->addSuccess(
+                    $this->getServiceLocator()->getTranslator()->trans('document.delete.success')
+                );
+            }
         }
 
         return $this->redirectToRoute('document-list');

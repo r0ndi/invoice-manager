@@ -177,6 +177,16 @@ class Contractor
         $this->status = $status;
     }
 
+    public function getFullAddress(): string
+    {
+        return sprintf(
+            '%s, %s %s',
+            $this->getAddress(),
+            $this->getPostcode(),
+            $this->getCity()
+        );
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraints('name', [
