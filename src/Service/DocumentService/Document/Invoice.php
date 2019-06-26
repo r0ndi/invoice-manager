@@ -2,7 +2,9 @@
 
 namespace App\Service\DocumentService\Document;
 
-use App\Entity\Document as DocumentEntity;
+use App\Util\Money;
+use App\Util\PriceCalculator;
+use Doctrine\Common\Collections\Collection;
 
 class Invoice extends Document
 {
@@ -54,20 +56,20 @@ class Invoice extends Document
     protected function getTemplateData(): array
     {
         $document = $this->getDocumentEntity();
-        $position = $document->getPositions()->first();
+        $toPay = $this->getToPay($document->getPositions());
 
         return [
             'placeIssue' => $document->getPlaceIssue(),
-            'dateIssue' => date('Y-m-d', strtotime($document->getDateIssue())),
-            'dateSell' => date('Y-m-d', strtotime($document->getDateSell())),
+            'dateIssue' => $document->getDateIssue()->format('Y-m-d'),
+            'dateSell' => $document->getDateSell()->format('Y-m-d'),
             'logo' => '../storage/logos/logo-1.png',
             'invoiceTitle' => $document->getTitle(),
             'paid' => $document->getPaid(),
             'paymentMethod' => $document->getPaymentMethod()->getName(),
-            'paymentDeadline' => date('Y-m-d', strtotime($document->getPaymentDateLimit())),
+            'paymentDeadline' => $document->getPaymentDateLimit()->format('Y-m-d'),
             'bankNo' => $document->getBankNo(),
-            'toPay' => '10 455,00 PLN',
-            'toPayInWords' => 'dziesięć tysięcy cztersyta piędziesiąt pięć PLN',
+            'toPay' => Money::format($toPay, true),
+            'toPayInWords' => Money::formatToText($toPay),
             'seller' => [
                 'name' => $document->getSeller()->getName(),
                 'address' => $document->getSeller()->getFullAddress(),
@@ -80,31 +82,113 @@ class Invoice extends Document
                 'nip' => $document->getBuyer()->getNip(),
                 'regon' => $document->getBuyer()->getRegon(),
             ],
-            'positions' => [
-                [
-                    'name' => $position->getName(),
-                    'unit' => $position->getUtil()->getName(),
-                    'quantity' => $position->getQauntity(),
-                    'netPrice' => '8 500,00',
-                    'netValue' => '8 500,00',
-                    'grossValue' => '10 455,00',
-                    'tax' => $position->getTax()->getName(),
-                    'taxValue' => '1 955,00'
-                ]
-            ],
-            'taxSummary' => [
-                [
-                    'name' => '23%',
-                    'netValue' => '8 500,00',
-                    'grossValue' => '10 455,00',
-                    'taxValue' => '1 955,00'
-                ],
-            ],
-            'summary' => [
-                'netValue' => '8 500,00',
-                'grossValue' => '10 455,00',
-                'taxValue' => '1 955,00'
-            ]
+            'positions' => $this->getPositions($document->getPositions()),
+            'taxSummary' => $this->getTaxSummary($document->getPositions()),
+            'summary' => $this->getSummary($document->getPositions())
         ];
+    }
+
+    private function getTaxSummary(Collection $positions): array
+    {
+        if ($positions->count() <= 0) {
+            return [];
+        }
+
+        $taxSummary = [];
+        foreach ($positions as $position) {
+            $index = $position->getTax()->getValue();
+
+            if (!isset($taxSummary[$index])) {
+                $taxSummary[$index] = [
+                    'name' => $position->getTax()->getName(),
+                    'tax' => $position->getTax(),
+                    'netValue' => 0
+                ];
+            }
+
+            $taxSummary[$index]['netValue'] += $position->getPrice();
+        }
+
+        foreach ($taxSummary as &$tax) {
+            $priceCalculator = new PriceCalculator($tax['netValue'], $tax['tax']);
+
+            $tax['taxValue'] = Money::format($priceCalculator->getTaxValue());
+            $tax['netValue'] = Money::format($priceCalculator->getNetValue());
+            $tax['grossValue'] = Money::format($priceCalculator->getGrossValue());
+
+            unset($tax['tax']);
+        }
+
+        return $taxSummary;
+    }
+
+    private function getSummary(Collection $positions): array
+    {
+        if ($positions->count() <= 0) {
+            return [];
+        }
+
+        $summary = [];
+        foreach ($positions as $position) {
+            if (!$summary) {
+                $summary = [
+                    'taxValue' => 0,
+                    'netValue' => 0,
+                    'grossValue' => 0
+                ];
+            }
+
+            $priceCalculator = new PriceCalculator($position->getPrice(), $position->getTax(), $position->getQuantity());
+
+            $summary['taxValue'] += $priceCalculator->getTaxValue();
+            $summary['netValue'] += $priceCalculator->getNetValue();
+            $summary['grossValue'] += $priceCalculator->getGrossValue();
+        }
+
+        $summary['taxValue'] = Money::format($summary['taxValue']);
+        $summary['netValue'] = Money::format($summary['netValue']);
+        $summary['grossValue'] = Money::format($summary['grossValue']);
+
+        return $summary;
+    }
+
+    private function getToPay(Collection $positions): float
+    {
+        if ($positions->count() <= 0) {
+            return 0;
+        }
+
+        $toPay = 0;
+        foreach ($positions as $position) {
+            $priceCalculator = new PriceCalculator($position->getPrice(), $position->getTax(), $position->getQuantity());
+            $toPay += $priceCalculator->getGrossValue();
+        }
+
+        return $toPay;
+    }
+
+    private function getPositions(Collection $positions): array
+    {
+        if ($positions->count() <= 0) {
+            return [];
+        }
+
+        $positionsData = [];
+        foreach ($positions as $position) {
+            $priceCalculator = new PriceCalculator($position->getPrice(), $position->getTax(), $position->getQuantity());
+
+            $positionsData[] = [
+                'name' => $position->getName(),
+                'quantity' => $position->getQuantity(),
+                'tax' => $position->getTax()->getName(),
+                'unit' => $position->getUtil()->getName(),
+                'netPrice' => Money::format($priceCalculator->getNet()),
+                'taxValue' => Money::format($priceCalculator->getTaxValue()),
+                'netValue' => Money::format($priceCalculator->getNetValue()),
+                'grossValue' => Money::format($priceCalculator->getGrossValue()),
+            ];
+        }
+
+        return $positionsData;
     }
 }

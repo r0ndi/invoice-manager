@@ -127,6 +127,9 @@ class DocumentController extends Controller
         }
 
         $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
+        $documentService->remove();
+        $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
+        $documentService->save();
         $documentService->preview();
         exit;
     }
