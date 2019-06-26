@@ -106,7 +106,7 @@ class Invoice extends Document
                 ];
             }
 
-            $taxSummary[$index]['netValue'] += $position->getPrice();
+            $taxSummary[$index]['netValue'] += $position->getPrice() * $position->getQuantity();
         }
 
         foreach ($taxSummary as &$tax) {

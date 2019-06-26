@@ -20,7 +20,11 @@ class DocumentController extends Controller
         $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
 
         return $this->render('controller/document/list.html.twig', [
-            'documents' => $documentRepository->findBy(['user' => $this->getUser(), 'status' => true]),
+            'documents' => $documentRepository->findBy([
+                'user' => $this->getUser(), 'status' => true
+            ], [
+                'id' => 'desc'
+            ]),
         ]);
     }
 
@@ -72,13 +76,9 @@ class DocumentController extends Controller
     public function delete(int $idDocument): Response
     {
         $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
-        $document = $documentRepository->find($idDocument);
+        $document = $this->getDocument($idDocument);
 
         if (!$document) {
-            $this->getServiceLocator()->getNotifyService()->addError(
-                $this->getServiceLocator()->getTranslator()->trans('document.delete.notFound')
-            );
-
             return $this->redirectToRoute('document-list');
         }
 
@@ -97,14 +97,9 @@ class DocumentController extends Controller
 
     public function download(int $idDocument): Response
     {
-        $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
-        $document = $documentRepository->find($idDocument);
+        $document = $this->getDocument($idDocument);
 
-        if (!($document instanceof Document)) {
-            $this->getServiceLocator()->getNotifyService()->addError(
-                $this->getServiceLocator()->getTranslator()->trans('document.download.notFound')
-            );
-
+        if (!$document) {
             return $this->redirectToRoute('document-list');
         }
 
@@ -115,22 +110,30 @@ class DocumentController extends Controller
 
     public function preview(int $idDocument): Response
     {
-        $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
-        $document = $documentRepository->find($idDocument);
+        $document = $this->getDocument($idDocument);
 
-        if (!($document instanceof Document)) {
-            $this->getServiceLocator()->getNotifyService()->addError(
-                $this->getServiceLocator()->getTranslator()->trans('document.preview.notFound')
-            );
-
+        if (!$document) {
             return $this->redirectToRoute('document-list');
         }
 
         $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
-        $documentService->remove();
-        $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
-        $documentService->save();
         $documentService->preview();
         exit;
+    }
+
+    private function getDocument(int $idDocument): ?Document
+    {
+        $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+        $document = $documentRepository->find($idDocument);
+
+        if ($document instanceof Document) {
+            return $document;
+        }
+
+        $this->getServiceLocator()->getNotifyService()->addError(
+            $this->getServiceLocator()->getTranslator()->trans('document.notFound')
+        );
+
+        return null;
     }
 }

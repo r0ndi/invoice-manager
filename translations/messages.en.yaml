@@ -76,7 +76,7 @@
 "document.create.header.redirect": "Documents list"
 "document.create.success": "Created new document!"
 
-"document.delete.notFound": "Document not found"
+"document.notFound": "Document not found"
 "document.delete.success": "Document has been deleted"
 
 "document.list.header.title": "Documents list"
