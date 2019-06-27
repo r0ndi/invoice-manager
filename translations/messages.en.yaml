@@ -53,7 +53,7 @@
 "contractor.list.status": "Change status"
 "contractor.list.edit": "Edit"
 
-"contractor.create.header.title": "Create new contractor"
+"contractor.create.header.title": "Create a new contractor"
 "contractor.create.header.redirect": "Contractors list"
 "contractor.create.success": "Created new contractor!"
 "form.contractor.name": "Company name"
@@ -72,9 +72,13 @@
 "contractor.edit.header.redirect": "Contractors list"
 "contractor.edit.success": "Contractor has edited"
 
-"document.create.header.title": "Creating new document"
+"document.create.header.title": "Creating a new document"
 "document.create.header.redirect": "Documents list"
 "document.create.success": "Created new document!"
+
+"document.edit.header.title": "Editing the document"
+"document.edit.header.redirect": "Documents list"
+"document.edit.success": "Edited new document!"
 
 "document.notFound": "Document not found"
 "document.delete.success": "Document has been deleted"
@@ -119,4 +123,4 @@
 "form.document.label.paymentDateLimit": "Payment date limit:"
 "form.document.label.bankNo": "Bank no:"
 "form.document.bankNo": "0000 0000 0000 0000 0000 0000"
-"form.document.submit": "Create document"
+"form.document.submit": "Save document"

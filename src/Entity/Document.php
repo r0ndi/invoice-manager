@@ -204,7 +204,7 @@ class Document
 
     public function getBankNo(): string
     {
-        return $this->bankNo;
+        return $this->bankNo ?? '';
     }
 
     public function setBankNo(string $bankNo)

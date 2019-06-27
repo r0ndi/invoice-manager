@@ -44,6 +44,7 @@ class DocumentController extends Controller
                 'contractors' => $contractorRepository->getAllToForm(),
                 'documentTypes' => $documentTypeRepository->getAllToForm(),
                 'paymentMethods' => $paymentMethodRepository->getAllToForm(),
+                'document' => $document
             ]
         ]);
 
@@ -93,6 +94,7 @@ class DocumentController extends Controller
                 'contractors' => $contractorRepository->getAllToForm(),
                 'documentTypes' => $documentTypeRepository->getAllToForm(),
                 'paymentMethods' => $paymentMethodRepository->getAllToForm(),
+                'document' => $document
             ]
         ]);
 
