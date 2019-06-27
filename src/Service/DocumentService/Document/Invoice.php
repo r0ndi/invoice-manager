@@ -25,15 +25,22 @@ class Invoice extends Document
 
     public function save(): bool
     {
-        $this->getPdfFile()->append($this->getDomPdf()->output());
-        $this->setPdfFile();
+        if (!$this->getPdfFile()->append($this->getDomPdf()->output())) {
+            return false;
+        }
 
+        $this->setPdfFile();
         return true;
     }
 
     public function remove(): bool
     {
-        return $this->getPdfFile()->delete();
+        if (!$this->getPdfFile()->delete()) {
+            return false;
+        }
+
+        $this->setPdfFile();
+        return true;
     }
 
     public function preview(): void
@@ -41,6 +48,7 @@ class Invoice extends Document
         header('Content-type: application/pdf');
         header('Content-Disposition: inline; filename=' . $this->getFileName());
         header('Cache-Control: private, max-age=0, must-revalidate');
+
         echo $this->getPdfFile()->getContent();
         exit;
     }
@@ -49,6 +57,7 @@ class Invoice extends Document
     {
         header('Content-type: application/pdf');
         header('Content-Disposition: attachment; filename=' . $this->getFileName());
+
         echo $this->getPdfFile()->getContent();
         exit;
     }

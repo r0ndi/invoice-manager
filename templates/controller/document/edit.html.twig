@@ -1,0 +1,91 @@
+{% extends 'base/base.html.twig' %}
+
+{% block title %}{{ 'title.document.edit'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 dashboard-header">
+                <h2>
+                    {{ 'document.edit.header.title'|trans }}
+                    <a href="{{ path('document-list') }}" class="btn btn-red-outline float-right">
+                        {{ 'document.edit.header.redirect'|trans }}
+                    </a>
+                </h2>
+            </div>
+
+            <div class="col-12 dashboard-content">
+                {{ form_start(documentForm) }}
+                    <div class="row">
+                        <div class="col-4">
+                            {{ form_row(documentForm.documentType) }}
+                        </div>
+                        <div class="col-4">
+                            {{ form_row(documentForm.title) }}
+                        </div>
+                        <div class="col-4">
+                            {{ form_row(documentForm.dateSell) }}
+                        </div>
+
+                        <div class="col-4 offset-4 mt-3">
+                            {{ form_row(documentForm.placeIssue) }}
+                        </div>
+                        <div class="col-4 mt-3">
+                            {{ form_row(documentForm.dateIssue) }}
+                        </div>
+
+                        <div class="col-6 mt-5 mb-5 pl-0">
+                            {{ form_row(documentForm.seller) }}
+                        </div>
+                        <div class="col-6 mt-5 mb-5 pr-0">
+                            {{ form_row(documentForm.buyer) }}
+                        </div>
+
+                        <div class="col-3 position">
+                            {{ form_row(documentForm.positionName) }}
+                        </div>
+                        <div class="col-1 position">
+                            {{ form_row(documentForm.positionUtil) }}
+                        </div>
+                        <div class="col-1 position">
+                            {{ form_row(documentForm.positionQuantity) }}
+                        </div>
+                        <div class="col-1 position">
+                            {{ form_row(documentForm.positionNetPrice) }}
+                        </div>
+                        <div class="col-1 position">
+                            {{ form_row(documentForm.positionNetValue) }}
+                        </div>
+                        <div class="col-1 position">
+                            {{ form_row(documentForm.positionTax) }}
+                        </div>
+                        <div class="col-2 position">
+                            {{ form_row(documentForm.positionGrossPrice) }}
+                        </div>
+                        <div class="col-2 position position__last-child">
+                            {{ form_row(documentForm.positionGrossValue) }}
+                        </div>
+
+                        <div class="col-3">
+                            {{ form_row(documentForm.paymentMethod) }}
+                        </div>
+                        <div class="col-3">
+                            {{ form_row(documentForm.paid) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_row(documentForm.bankNo) }}
+                        </div>
+                        <div class="col-3 mt-3">
+                            {{ form_row(documentForm.paymentDateLimit) }}
+                        </div>
+                        <div class="col-3 offset-9 pull-right">
+                            {{ form_row(documentForm.create, {'label': 'form.document.edit.submit'}) }}
+                        </div>
+                    </div>
+                {{ form_end(documentForm) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

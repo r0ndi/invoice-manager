@@ -38,6 +38,10 @@ document-create:
     path: /document/create
     controller: App\Controller\DocumentController::create
 
+document-edit:
+    path: /document/{idContractor}/edit
+    controller: App\Controller\DocumentController::edit
+
 document-list:
     path: /document/list
     controller: App\Controller\DocumentController::list

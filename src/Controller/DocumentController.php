@@ -73,6 +73,56 @@ class DocumentController extends Controller
         ]);
     }
 
+    public function edit(int $idDocument, Request $request): Response
+    {
+        $document = $this->getDocument($idDocument);
+        if (!$document) {
+            return $this->redirectToRoute('document-list');
+        }
+
+        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
+        $utilRepository = $this->getDoctrine()->getRepository(Util::class);
+        $contractorRepository = $this->getDoctrine()->getRepository(Contractor::class);
+        $documentTypeRepository = $this->getDoctrine()->getRepository(DocumentType::class);
+        $paymentMethodRepository = $this->getDoctrine()->getRepository(PaymentMethod::class);
+
+        $form = $this->createForm(DocumentFormType::class, $document, [
+            'data' => [
+                'taxes' => $taxRepository->getAllToForm(),
+                'utils' => $utilRepository->getAllToForm(),
+                'contractors' => $contractorRepository->getAllToForm(),
+                'documentTypes' => $documentTypeRepository->getAllToForm(),
+                'paymentMethods' => $paymentMethodRepository->getAllToForm(),
+            ]
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+
+            if ($documentRepository->editFromForm($form, $document, $this->getUser())) {
+                $documentService = $this->getServiceLocator()->getDocumentService();
+                $documentService->getDocument(Invoice::class, $document)->remove();
+
+                if ($documentService->getDocument(Invoice::class, $document)->save()) {
+                    $this->getServiceLocator()->getNotifyService()->addSuccess(
+                        $this->getServiceLocator()->getTranslator()->trans('document.edit.success')
+                    );
+
+                    return $this->redirectToRoute('document-list');
+                }
+            }
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->getServiceLocator()->getNotifyService()->addFormErrors($form->getErrors(true));
+        }
+
+        return $this->render('controller/document/edit.html.twig', [
+            'documentForm' => $form->createView()
+        ]);
+    }
+
     public function delete(int $idDocument): Response
     {
         $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
