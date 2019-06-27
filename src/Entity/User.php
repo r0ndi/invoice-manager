@@ -43,6 +43,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(name="logo_url", type="string")
+     */
+    private $logoUrl;
+
+    /**
      * @ORM\Column(name="is_active", type="boolean", options={"default": 1})
      */
     private $isActive;
@@ -110,6 +115,16 @@ class User implements UserInterface
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getLogoUrl(): string
+    {
+        return $this->logoUrl ?? '';
+    }
+
+    public function setLogoUrl(string $logoUrl): void
+    {
+        $this->logoUrl = $logoUrl;
     }
 
     public function getRoles(): array

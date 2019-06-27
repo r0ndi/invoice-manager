@@ -62,7 +62,7 @@ class Invoice extends Document
             'placeIssue' => $document->getPlaceIssue(),
             'dateIssue' => $document->getDateIssue()->format('Y-m-d'),
             'dateSell' => $document->getDateSell()->format('Y-m-d'),
-            'logo' => '../storage/logos/logo-1.png',
+            'logo' => $document->getUser()->getLogoUrl(),
             'invoiceTitle' => $document->getTitle(),
             'paid' => $document->getPaid(),
             'paymentMethod' => $document->getPaymentMethod()->getName(),
