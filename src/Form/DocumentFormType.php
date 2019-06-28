@@ -2,23 +2,37 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Document;
-use App\Entity\DocumentPosition;
 use App\Util\PriceCalculator;
+use App\Entity\DocumentPosition;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DocumentFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $priceCalculator = null;
+        $user = $this->getUser($builder);
         $document = $this->getDocument($builder);
         $position = $this->getDocumentPosition($builder);
-        $priceCalculator = new PriceCalculator($position->getPrice(), $position->getTax(), $position->getQuantity());
+
+        if ($position->getId()) {
+            $priceCalculator = new PriceCalculator($position->getPrice(), $position->getTax(), $position->getQuantity());
+        }
+
+        if ($user->getDefaultContractor() && !$document->getSeller()) {
+            $document->setSeller($user->getDefaultContractor());
+        }
+
+        if ($user->getDefaultContractor() && !$document->getBankNo()) {
+            $document->setBankNo($user->getDefaultContractor()->getBankNo());
+        }
 
         $builder
             ->add('documentType', ChoiceType::class, [
@@ -98,14 +112,14 @@ class DocumentFormType extends AbstractType
             ->add('positionNetPrice', NumberType::class, [
                 'label' => 'form.document.label.positionNetPrice',
                 'attr' => [
-                    'value' => $priceCalculator->getNet(),
+                    'value' => $priceCalculator ? $priceCalculator->getNet() : null,
                     'placeholder' => 'form.document.positionNetPrice'
                 ]
             ])
             ->add('positionNetValue', NumberType::class, [
                 'label' => 'form.document.label.positionNetValue',
                 'attr' => [
-                    'value' => $priceCalculator->getNetValue(),
+                    'value' => $priceCalculator ? $priceCalculator->getNetValue() : null,
                     'placeholder' => 'form.document.positionNetValue'
                 ]
             ])
@@ -120,14 +134,14 @@ class DocumentFormType extends AbstractType
             ->add('positionGrossPrice', NumberType::class, [
                 'label' => 'form.document.label.positionGrossPrice',
                 'attr' => [
-                    'value' => $priceCalculator->getGross(),
+                    'value' => $priceCalculator ? $priceCalculator->getGross() : null,
                     'placeholder' => 'form.document.positionGrossPrice'
                 ]
             ])
             ->add('positionGrossValue', NumberType::class, [
                 'label' => 'form.document.label.positionGrossValue',
                 'attr' => [
-                    'value' => $priceCalculator->getGrossValue(),
+                    'value' => $priceCalculator ? $priceCalculator->getGrossValue() : null,
                     'placeholder' => 'form.document.positionGrossValue'
                 ]
             ])
@@ -171,6 +185,11 @@ class DocumentFormType extends AbstractType
     private function getDocument(FormBuilderInterface $builder): Document
     {
         return $builder->getData()['document'];
+    }
+
+    private function getUser(FormBuilderInterface $builder): User
+    {
+        return $builder->getData()['user'];
     }
 
     private function getDocumentPosition(FormBuilderInterface $builder): DocumentPosition

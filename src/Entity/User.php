@@ -48,6 +48,12 @@ class User implements UserInterface
     private $logoUrl;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Contractor")
+     * @ORM\JoinColumn(name="id_default_contractor", referencedColumnName="id", nullable=false)
+     */
+    private $defaultContractor;
+
+    /**
      * @ORM\Column(name="is_active", type="boolean", options={"default": 1})
      */
     private $isActive;
@@ -125,6 +131,16 @@ class User implements UserInterface
     public function setLogoUrl(string $logoUrl): void
     {
         $this->logoUrl = $logoUrl;
+    }
+
+    public function getDefaultContractor(): ?Contractor
+    {
+        return $this->defaultContractor;
+    }
+
+    public function setDefaultContractor(Contractor $defaultContractor)
+    {
+        $this->defaultContractor = $defaultContractor;
     }
 
     public function getRoles(): array

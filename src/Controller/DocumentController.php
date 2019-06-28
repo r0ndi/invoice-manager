@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Contractor;
-use App\Entity\Document;
-use App\Entity\DocumentType;
-use App\Entity\PaymentMethod;
 use App\Entity\Tax;
 use App\Entity\Util;
+use App\Entity\Document;
+use App\Entity\Contractor;
+use App\Entity\DocumentType;
+use App\Entity\PaymentMethod;
 use App\Form\DocumentFormType;
-use App\Service\DocumentService\Document\Invoice;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\DocumentService\Document\Invoice;
 
 class DocumentController extends Controller
 {
@@ -31,21 +31,8 @@ class DocumentController extends Controller
     public function create(Request $request): Response
     {
         $document = new Document();
-        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
-        $utilRepository = $this->getDoctrine()->getRepository(Util::class);
-        $contractorRepository = $this->getDoctrine()->getRepository(Contractor::class);
-        $documentTypeRepository = $this->getDoctrine()->getRepository(DocumentType::class);
-        $paymentMethodRepository = $this->getDoctrine()->getRepository(PaymentMethod::class);
-
         $form = $this->createForm(DocumentFormType::class, $document, [
-            'data' => [
-                'taxes' => $taxRepository->getAllToForm(),
-                'utils' => $utilRepository->getAllToForm(),
-                'contractors' => $contractorRepository->getAllToForm(),
-                'documentTypes' => $documentTypeRepository->getAllToForm(),
-                'paymentMethods' => $paymentMethodRepository->getAllToForm(),
-                'document' => $document
-            ]
+            'data' => $this->getFormData($document)
         ]);
 
         $form->handleRequest($request);
@@ -53,9 +40,9 @@ class DocumentController extends Controller
             $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
 
             if ($documentRepository->createFromForm($form, $this->getUser())) {
-                $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
+                $documentService = $this->getServiceLocator()->getDocumentService();
 
-                if ($documentService->save()) {
+                if ($documentService->getDocument(Invoice::class, $document)->save()) {
                     $this->getServiceLocator()->getNotifyService()->addSuccess(
                         $this->getServiceLocator()->getTranslator()->trans('document.create.success')
                     );
@@ -77,25 +64,13 @@ class DocumentController extends Controller
     public function edit(int $idDocument, Request $request): Response
     {
         $document = $this->getDocument($idDocument);
+
         if (!$document) {
             return $this->redirectToRoute('document-list');
         }
 
-        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
-        $utilRepository = $this->getDoctrine()->getRepository(Util::class);
-        $contractorRepository = $this->getDoctrine()->getRepository(Contractor::class);
-        $documentTypeRepository = $this->getDoctrine()->getRepository(DocumentType::class);
-        $paymentMethodRepository = $this->getDoctrine()->getRepository(PaymentMethod::class);
-
         $form = $this->createForm(DocumentFormType::class, $document, [
-            'data' => [
-                'taxes' => $taxRepository->getAllToForm(),
-                'utils' => $utilRepository->getAllToForm(),
-                'contractors' => $contractorRepository->getAllToForm(),
-                'documentTypes' => $documentTypeRepository->getAllToForm(),
-                'paymentMethods' => $paymentMethodRepository->getAllToForm(),
-                'document' => $document
-            ]
+            'data' => $this->getFormData($document)
         ]);
 
         $form->handleRequest($request);
@@ -187,5 +162,24 @@ class DocumentController extends Controller
         );
 
         return null;
+    }
+
+    private function getFormData(Document $document): array
+    {
+        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
+        $utilRepository = $this->getDoctrine()->getRepository(Util::class);
+        $contractorRepository = $this->getDoctrine()->getRepository(Contractor::class);
+        $documentTypeRepository = $this->getDoctrine()->getRepository(DocumentType::class);
+        $paymentMethodRepository = $this->getDoctrine()->getRepository(PaymentMethod::class);
+
+        return [
+            'document' => $document,
+            'user' => $this->getUser(),
+            'taxes' => $taxRepository->getAllToForm(),
+            'utils' => $utilRepository->getAllToForm(),
+            'contractors' => $contractorRepository->getAllToForm(),
+            'documentTypes' => $documentTypeRepository->getAllToForm(),
+            'paymentMethods' => $paymentMethodRepository->getAllToForm(),
+        ];
     }
 }
