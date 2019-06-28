@@ -141,7 +141,7 @@ class DocumentRepository extends ServiceEntityRepository
         $document->setDateIssue(new DateTime($form->get('dateIssue')->getData()));
         $document->setPaymentDateLimit(new DateTime($form->get('paymentDateLimit')->getData()));
 
-        $this->getEntityManager()->persist($document);
+        $this->getEntityManager()->merge($document);
 
         $documentPosition = $document->getPositions()->first();
         $documentPosition->setDocument($document);
@@ -151,7 +151,7 @@ class DocumentRepository extends ServiceEntityRepository
         $documentPosition->setQuantity($form->get('positionQuantity')->getData());
         $documentPosition->setPrice($form->get('positionNetPrice')->getData());
 
-        $this->getEntityManager()->persist($documentPosition);
+        $this->getEntityManager()->merge($documentPosition);
         $this->getEntityManager()->flush();
 
         return $document;
