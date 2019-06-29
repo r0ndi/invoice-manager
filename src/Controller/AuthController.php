@@ -50,7 +50,7 @@ class AuthController extends Controller
                     $this->getServiceLocator()->getTranslator()->trans('register.create.success')
                 );
 
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('user-edit');
             }
         }
 

@@ -4,10 +4,10 @@
 
 {% block body %}
 
-    <div class="col-12 align-content-center" style="margin-top: 300px;">
+    <div class="col-12 align-content-center mt-5">
 
-        <p class="text-center mt-100">Welcome to <strong>invoice manager</strong>!</p>
-        <p class="text-center">Choose <a href="{{ path('document-create') }}">create invoice</a>  from nav and have fun.</p>
+        <p class="text-center mt-100">{{ 'home.paragraph.welcome'|trans }}<strong>{{ 'home.paragraph.application.name'|trans }}</strong></p>
+        <p class="text-center">{{ 'home.paragraph.info'|trans }} <a href="{{ path('document-create') }}">{{ 'home.paragraph.redirect.info'|trans }}</a> {{ 'home.paragraph.finish.info'|trans }}</p>
 
     </div>
 

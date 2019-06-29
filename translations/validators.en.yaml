@@ -42,3 +42,6 @@
 
 "form.dateSell.notBlank": "Please enter a date sell"
 
+"form.user.edit.logo.maxSize": "Please upload a image lower than 1MB"
+"form.user.edit.logo.mimeTypes": "Please upload a image with correct extension (jpg, jpeg, png)"
+

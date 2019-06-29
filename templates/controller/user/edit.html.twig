@@ -1,0 +1,58 @@
+{% extends 'base/base.html.twig' %}
+
+{% block title %}{{ 'title.user.edit'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 dashboard-header">
+                <h2>
+                    {{ 'user.edit.header.account.title'|trans }}
+                </h2>
+            </div>
+
+            <div class="col-12 dashboard-content account-form">
+                {{ form(userForm) }}
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 dashboard-header">
+                <h2>
+                    {{ 'user.edit.header.password.title'|trans }}
+                </h2>
+            </div>
+
+            <div class="col-12 dashboard-content account-form">
+                {{ form(passwordForm) }}
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 dashboard-header">
+                <h2>
+                    {{ 'user.edit.header.logo.title'|trans }}
+                </h2>
+            </div>
+
+            <div class="col-12 dashboard-content account-form">
+                {{ form_start(logoForm) }}
+
+                    <div class="col-12">
+                        <label class="file-container">
+                            <i class="fas fa-upload"></i> {{ 'form.user.logo'|trans }}
+                            {{ form_row(logoForm.logo) }}
+                        </label>
+                    </div>
+
+                    <div class="col-3 logo-upload">
+                        {{ form_row(logoForm.save) }}
+                    </div>
+
+                {{ form_end(logoForm) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

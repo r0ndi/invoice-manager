@@ -61,3 +61,7 @@ document-download:
 refresh-prices:
     path: /document/refresh-prices
     controller: App\Controller\DocumentController::refreshPrices
+
+user-edit:
+    path: /user/edit
+    controller: App\Controller\UserController::edit
