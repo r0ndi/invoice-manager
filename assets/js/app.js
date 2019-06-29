@@ -6,4 +6,5 @@ require('@fortawesome/fontawesome-free/js/all.js');
 require('./lib/select');
 require('./lib/date-picker');
 require('./modules/select');
+require('./modules/document');
 require('./modules/date-picker');

@@ -57,3 +57,7 @@ document-preview:
 document-download:
     path: /document/{idDocument}/download
     controller: App\Controller\DocumentController::download
+
+refresh-prices:
+    path: /document/refresh-prices
+    controller: App\Controller\DocumentController::refreshPrices

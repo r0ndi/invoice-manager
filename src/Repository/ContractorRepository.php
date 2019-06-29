@@ -69,4 +69,11 @@ class ContractorRepository extends BaseRepository
 
         return $contractor;
     }
+
+    public function getAllToForm(): array
+    {
+        return array_map(function (Contractor $object) {
+            return [$object->getName() => $object->getId()];
+        }, $this->findBy(['status' => true]));
+    }
 }

@@ -120,7 +120,8 @@ class DocumentFormType extends AbstractType
                 'label' => 'form.document.label.positionNetValue',
                 'attr' => [
                     'value' => $priceCalculator ? $priceCalculator->getNetValue() : null,
-                    'placeholder' => 'form.document.positionNetValue'
+                    'placeholder' => 'form.document.positionNetValue',
+                    'readonly' => true
                 ]
             ])
             ->add('positionTax', ChoiceType::class, [
@@ -135,14 +136,16 @@ class DocumentFormType extends AbstractType
                 'label' => 'form.document.label.positionGrossPrice',
                 'attr' => [
                     'value' => $priceCalculator ? $priceCalculator->getGross() : null,
-                    'placeholder' => 'form.document.positionGrossPrice'
+                    'placeholder' => 'form.document.positionGrossPrice',
+                    'readonly' => true
                 ]
             ])
             ->add('positionGrossValue', NumberType::class, [
                 'label' => 'form.document.label.positionGrossValue',
                 'attr' => [
                     'value' => $priceCalculator ? $priceCalculator->getGrossValue() : null,
-                    'placeholder' => 'form.document.positionGrossValue'
+                    'placeholder' => 'form.document.positionGrossValue',
+                    'readonly' => true
                 ]
             ])
             ->add('paymentMethod', ChoiceType::class, [

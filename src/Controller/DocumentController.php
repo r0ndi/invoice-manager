@@ -9,6 +9,8 @@ use App\Entity\Contractor;
 use App\Entity\DocumentType;
 use App\Entity\PaymentMethod;
 use App\Form\DocumentFormType;
+use App\Util\Money;
+use App\Util\PriceCalculator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\DocumentService\Document\Invoice;
@@ -146,6 +148,31 @@ class DocumentController extends Controller
         $documentService = $this->getServiceLocator()->getDocumentService()->getDocument(Invoice::class, $document);
         $documentService->preview();
         exit;
+    }
+
+    public function refreshPrices(Request $request): void
+    {
+        $netPrice = (float)str_replace([',', '.', ' ', 'zl', 'zł'], '', $request->request->get('netPrice'));
+        $quantity = (int)$request->request->get('quantity');
+        $idTax = (int)$request->request->get('tax');
+
+        $tax = $this->getDoctrine()->getManager()->find(Tax::class, $idTax);
+        if (!($tax instanceof Tax)) {
+            exit;
+        }
+
+        $priceCalculator = new PriceCalculator($netPrice, $tax, $quantity);
+
+        $response = [
+            'net' => Money::format($priceCalculator->getNet()),
+            'netValue' => Money::format($priceCalculator->getNetValue()),
+            'gross' => Money::format($priceCalculator->getGross()),
+            'grossValue' => Money::format($priceCalculator->getGrossValue()),
+            'tax' => Money::format($priceCalculator->getTax()),
+            'taxValue' => Money::format($priceCalculator->getTaxValue()),
+        ];
+
+        exit(json_encode($response));
     }
 
     private function getDocument(int $idDocument): ?Document
