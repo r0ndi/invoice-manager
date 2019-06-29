@@ -2,11 +2,18 @@
 
 namespace App\Form;
 
+use App\Entity\Tax;
 use App\Entity\User;
+use App\Entity\Util;
 use App\Entity\Document;
+use App\Entity\Contractor;
+use App\Entity\DocumentType;
 use App\Util\PriceCalculator;
+use App\Entity\PaymentMethod;
 use App\Entity\DocumentPosition;
+use App\Repository\DocumentRepository;
 use Symfony\Component\Form\AbstractType;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,14 +24,16 @@ class DocumentFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $priceCalculator = null;
         $user = $this->getUser($builder);
         $document = $this->getDocument($builder);
         $position = $this->getDocumentPosition($builder);
-
-        if ($position->getId()) {
-            $priceCalculator = new PriceCalculator($position->getPrice(), $position->getTax(), $position->getQuantity());
-        }
+        $taxRepository = $this->getDoctrine($builder)->getRepository(Tax::class);
+        $utilRepository = $this->getDoctrine($builder)->getRepository(Util::class);
+        $documentRepository = $this->getDoctrine($builder)->getRepository(Document::class);
+        $contractorRepository = $this->getDoctrine($builder)->getRepository(Contractor::class);
+        $documentTypeRepository = $this->getDoctrine($builder)->getRepository(DocumentType::class);
+        $paymentMethodRepository = $this->getDoctrine($builder)->getRepository(PaymentMethod::class);
+        $priceCalculator = !$position->getId() ? null : new PriceCalculator($position->getPrice(), $position->getTax(), $position->getQuantity());
 
         if ($user->getDefaultContractor() && !$document->getSeller()) {
             $document->setSeller($user->getDefaultContractor());
@@ -34,10 +43,14 @@ class DocumentFormType extends AbstractType
             $document->setBankNo($user->getDefaultContractor()->getBankNo());
         }
 
+        if (!$document->getTitle()) {
+            $document->setTitle($this->getDefaultTitle($documentRepository));
+        }
+
         $builder
             ->add('documentType', ChoiceType::class, [
                 'label' => 'form.document.label.documentType',
-                'choices' => $builder->getData()['documentTypes'] ?? [],
+                'choices' => $documentTypeRepository->getAllToForm() ?? [],
                 'attr' => [
                     'value' => $document->getDocumentType() ? $document->getDocumentType()->getId() : null,
                     'class' => 'select-picker'
@@ -73,7 +86,7 @@ class DocumentFormType extends AbstractType
             ])
             ->add('seller', ChoiceType::class, [
                 'label' => 'form.document.label.seller',
-                'choices' => $builder->getData()['contractors'] ?? [],
+                'choices' => $contractorRepository->getAllToForm() ?? [],
                 'attr' => [
                     'value' => $document->getSeller() ? $document->getSeller()->getId() : null,
                     'class' => 'select-picker'
@@ -81,7 +94,7 @@ class DocumentFormType extends AbstractType
             ])
             ->add('buyer', ChoiceType::class, [
                 'label' => 'form.document.label.buyer',
-                'choices' => $builder->getData()['contractors'] ?? [],
+                'choices' => $contractorRepository->getAllToForm() ?? [],
                 'attr' => [
                     'value' => $document->getBuyer() ? $document->getBuyer()->getId() : null,
                     'class' => 'select-picker'
@@ -96,7 +109,7 @@ class DocumentFormType extends AbstractType
             ])
             ->add('positionUtil', ChoiceType::class, [
                 'label' => 'form.document.label.positionUtil',
-                'choices' => $builder->getData()['utils'] ?? [],
+                'choices' => $utilRepository->getAllToForm() ?? [],
                 'attr' => [
                     'value' => $position->getUtil() ? $position->getUtil()->getId() : null,
                     'class' => 'select-picker'
@@ -126,7 +139,7 @@ class DocumentFormType extends AbstractType
             ])
             ->add('positionTax', ChoiceType::class, [
                 'label' => 'form.document.label.positionTax',
-                'choices' => $builder->getData()['taxes'] ?? [],
+                'choices' => $taxRepository->getAllToForm() ?? [],
                 'attr' => [
                     'value' => $position->getTax() ? $position->getTax()->getId() : null,
                     'class' => 'select-picker'
@@ -150,7 +163,7 @@ class DocumentFormType extends AbstractType
             ])
             ->add('paymentMethod', ChoiceType::class, [
                 'label' => 'form.document.label.paymentMethod',
-                'choices' => $builder->getData()['paymentMethods'] ?? [],
+                'choices' => $paymentMethodRepository->getAllToForm() ?? [],
                 'attr' => [
                     'value' => $document->getPaymentMethod() ? $document->getPaymentMethod()->getId() : null,
                     'class' => 'select-picker'
@@ -183,6 +196,19 @@ class DocumentFormType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'form.document.submit'
             ]);
+    }
+
+    private function getDefaultTitle(DocumentRepository $documentRepository): string
+    {
+        $documents = $documentRepository->findAllInCurrentMonth();
+        $documentNumber = count($documents) + 1;
+
+        return "Faktura VAT nr {$documentNumber}/" . date('m/Y');
+    }
+
+    private function getDoctrine(FormBuilderInterface $builder): ManagerRegistry
+    {
+        return $builder->getData()['doctrine'];
     }
 
     private function getDocument(FormBuilderInterface $builder): Document

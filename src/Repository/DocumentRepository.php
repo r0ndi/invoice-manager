@@ -166,4 +166,16 @@ class DocumentRepository extends ServiceEntityRepository
 
         return $document;
     }
+
+    public function findAllInCurrentMonth(): array
+    {
+        $currentMonth = (new DateTime())->format('Y-m');
+
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.dateAdded LIKE :dateAdded')
+            ->andWhere('d.status = 1')
+            ->setParameter('dateAdded', "%$currentMonth%")
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

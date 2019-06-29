@@ -52,6 +52,7 @@
 "contractor.list.action": "Action"
 "contractor.list.status": "Change status"
 "contractor.list.edit": "Edit"
+"contractor.list.notFound": "Contractors not found"
 
 "contractor.create.header.title": "Create a new contractor"
 "contractor.create.header.redirect": "Contractors list"
@@ -93,6 +94,7 @@
 "document.list.edit": "Edit"
 "document.list.preview": "Preview"
 "document.list.download": "Download"
+"document.list.notFound": "Documents not found"
 
 "form.document.label.documentType": "Document type:"
 "form.document.label.title": "Document number:"

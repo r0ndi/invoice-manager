@@ -39,6 +39,10 @@
                                 </a>
                             </td>
                         </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">{{ 'contractor.list.notFound'|trans }}</td>
+                        </tr>
                     {% endfor %}
                 </table>
             </div>

@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Tax;
-use App\Entity\Util;
-use App\Entity\Document;
-use App\Entity\Contractor;
-use App\Entity\DocumentType;
-use App\Entity\PaymentMethod;
-use App\Form\DocumentFormType;
 use App\Util\Money;
+use App\Entity\Tax;
+use App\Entity\Document;
 use App\Util\PriceCalculator;
+use App\Form\DocumentFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\DocumentService\Document\Invoice;
@@ -20,13 +16,10 @@ class DocumentController extends Controller
     public function list(): Response
     {
         $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
+        $documents = $documentRepository->findBy(['user' => $this->getUser(), 'status' => true], ['id' => 'desc']);
 
         return $this->render('controller/document/list.html.twig', [
-            'documents' => $documentRepository->findBy([
-                'user' => $this->getUser(), 'status' => true
-            ], [
-                'id' => 'desc'
-            ]),
+            'documents' => $documents
         ]);
     }
 
@@ -193,20 +186,10 @@ class DocumentController extends Controller
 
     private function getFormData(Document $document): array
     {
-        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
-        $utilRepository = $this->getDoctrine()->getRepository(Util::class);
-        $contractorRepository = $this->getDoctrine()->getRepository(Contractor::class);
-        $documentTypeRepository = $this->getDoctrine()->getRepository(DocumentType::class);
-        $paymentMethodRepository = $this->getDoctrine()->getRepository(PaymentMethod::class);
-
         return [
             'document' => $document,
             'user' => $this->getUser(),
-            'taxes' => $taxRepository->getAllToForm(),
-            'utils' => $utilRepository->getAllToForm(),
-            'contractors' => $contractorRepository->getAllToForm(),
-            'documentTypes' => $documentTypeRepository->getAllToForm(),
-            'paymentMethods' => $paymentMethodRepository->getAllToForm(),
+            'doctrine' => $this->getDoctrine()
         ];
     }
 }

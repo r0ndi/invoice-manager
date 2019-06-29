@@ -47,6 +47,10 @@
                                 </a>
                             </td>
                         </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">{{ 'document.list.notFound'|trans }}</td>
+                        </tr>
                     {% endfor %}
                 </table>
             </div>
