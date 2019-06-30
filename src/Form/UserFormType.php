@@ -24,19 +24,16 @@ class UserFormType extends AbstractType
             ->add('firstname', TextType::class, [
                 'attr' => [
                     'value' => $user->getFirstname(),
-                    'placeholder' => 'form.user.firstname'
                 ]
             ])
             ->add('lastname', TextType::class, [
                 'attr' => [
                     'value' => $user->getLastname(),
-                    'placeholder' => 'form.user.lastname'
                 ]
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
                     'value' => $user->getEmail(),
-                    'placeholder' => 'form.user.email'
                 ]
             ])
             ->add('seller', ChoiceType::class, [
