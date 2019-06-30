@@ -1,1 +1,4 @@
 documents.path: "/Users/konrad/Projects/Private/Applications/Invoice-manager/storage/documents/"
+
+logo.path.absolute: "/Users/konrad/Projects/Private/Applications/Invoice-manager/storage/logos/"
+logo.path: "../storage/logos/"
