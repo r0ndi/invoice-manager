@@ -33,6 +33,7 @@ class UserRepository extends ServiceEntityRepository
         $user->setLastname($form->get('lastname')->getData());
         $user->setEmail($form->get('email')->getData());
         $user->setIsActive(true);
+        $user->setLogoUrl('');
 
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
