@@ -31,6 +31,7 @@ class UserRepository extends ServiceEntityRepository
         $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
         $user->setFirstname($form->get('firstname')->getData());
         $user->setLastname($form->get('lastname')->getData());
+        $user->setEmail($form->get('email')->getData());
         $user->setIsActive(true);
 
         $this->getEntityManager()->persist($user);
