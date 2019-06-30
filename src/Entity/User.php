@@ -43,13 +43,13 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(name="logo_url", type="string")
+     * @ORM\Column(name="logo_url", type="string", nullable=true)
      */
     private $logoUrl;
 
     /**
      * @ORM\ManyToOne(targetEntity="Contractor")
-     * @ORM\JoinColumn(name="id_default_contractor", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="id_default_contractor", referencedColumnName="id", nullable=true)
      */
     private $defaultContractor;
 
