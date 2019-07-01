@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Util;
+use App\Util\ServiceLocator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -13,8 +14,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UtilRepository extends BaseRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, ServiceLocator $serviceLocator)
     {
-        parent::__construct($registry, Util::class);
+        parent::__construct($registry, Util::class, $serviceLocator);
     }
 }

@@ -118,8 +118,8 @@
         <div class="row mt-50 payment-summary">
             <div class="col-5 align-left">
                 <p>Sposob płatności: {{ paymentMethod }}</p>
-                <p>Termin płatności: {{ paymentDeadline }}</p>
-                <p>Numer konta: {{ bankNo }}</p>
+                <p>{% if paid == 0 %}Termin płatności: {{ paymentDeadline }}{% endif %}</p>
+                <p>{% if bankNo and paymentMethod != 'gotówka' %}Numer konta: {{ bankNo }}{% endif %}</p>
             </div>
             <div class="col-5 align-right">
                 <p>{% if paid %}Zapłacono{% else %}Do zapłaty{% endif %}: <strong>{{ toPay }}</strong></p>

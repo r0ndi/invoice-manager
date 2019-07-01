@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Util\ServiceLocator;
 use DateTime;
 use App\Entity\Contractor;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -16,17 +17,15 @@ use Symfony\Component\Form\FormInterface;
  */
 class ContractorRepository extends BaseRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, ServiceLocator $serviceLocator)
     {
-        parent::__construct($registry, Contractor::class);
+        parent::__construct($registry, Contractor::class, $serviceLocator);
     }
 
     public function changeStatus(Contractor $contractor): Contractor
     {
         $contractor->setStatus(!$contractor->getStatus());
-
-        $this->getEntityManager()->persist($contractor);
-        $this->getEntityManager()->flush();
+        $this->persist($contractor);
 
         return $contractor;
     }
@@ -45,8 +44,7 @@ class ContractorRepository extends BaseRepository
         $contractor->setStatus(true);
         $contractor->setUser($user);
 
-        $this->getEntityManager()->persist($contractor);
-        $this->getEntityManager()->flush();
+        $this->persist($contractor);
 
         return $contractor;
     }
@@ -64,8 +62,7 @@ class ContractorRepository extends BaseRepository
         $contractor->setStatus(true);
         $contractor->setUser($user);
 
-        $this->getEntityManager()->merge($contractor);
-        $this->getEntityManager()->flush();
+        $this->merge($contractor);
 
         return $contractor;
     }
