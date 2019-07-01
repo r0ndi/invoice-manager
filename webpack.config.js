@@ -6,7 +6,6 @@ Encore
 
     .addEntry('app', './assets/js/app.js')
     .addEntry('auth-app', './assets/js/auth-app.js')
-    .addEntry('document-template-app', './assets/js/document-template-app.js')
 
     .enableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
