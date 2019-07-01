@@ -97,13 +97,13 @@
   clear: both;
 }
 #invoice-template .col-4 {
-  width: calc(700px / 3);
+  width: 233px;
 }
 #invoice-template .col-5 {
-  width: calc(700px / 2.5);
+  width: 280px;
 }
 #invoice-template .col-6 {
-  width: calc(700px / 2);
+  width: 350px;
 }
 #invoice-template .col-12 {
   width: 700px;
