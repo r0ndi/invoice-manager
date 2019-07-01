@@ -86,6 +86,7 @@ class DocumentRepository extends ServiceEntityRepository
         $documentPosition->setName($form->get('positionName')->getData());
         $documentPosition->setQuantity($form->get('positionQuantity')->getData());
         $documentPosition->setPrice($form->get('positionNetPrice')->getData());
+        $document->getPositions()->add($documentPosition);
 
         $this->getEntityManager()->persist($documentPosition);
         $this->getEntityManager()->flush();
@@ -150,6 +151,9 @@ class DocumentRepository extends ServiceEntityRepository
         $documentPosition->setName($form->get('positionName')->getData());
         $documentPosition->setQuantity($form->get('positionQuantity')->getData());
         $documentPosition->setPrice($form->get('positionNetPrice')->getData());
+
+        $document->getPositions()->clear();
+        $document->getPositions()->add($documentPosition);
 
         $this->getEntityManager()->merge($documentPosition);
         $this->getEntityManager()->flush();

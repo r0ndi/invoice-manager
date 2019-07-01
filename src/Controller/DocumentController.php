@@ -32,9 +32,10 @@ class DocumentController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
 
-            if ($documentRepository->createFromForm($form, $this->getUser())) {
+            if ($document = $documentRepository->createFromForm($form, $this->getUser())) {
                 $documentService = $this->getServiceLocator()->getDocumentService();
 
                 if ($documentService->getDocument(Invoice::class, $document)->save()) {
@@ -72,7 +73,7 @@ class DocumentController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $documentRepository = $this->getDoctrine()->getManager()->getRepository(Document::class);
 
-            if ($documentRepository->editFromForm($form, $document, $this->getUser())) {
+            if ($document = $documentRepository->editFromForm($form, $document, $this->getUser())) {
                 $documentService = $this->getServiceLocator()->getDocumentService();
                 $documentService->getDocument(Invoice::class, $document)->remove();
 
