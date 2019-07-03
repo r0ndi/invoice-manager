@@ -26,7 +26,7 @@ class UserRepository extends BaseRepository
         parent::__construct($registry, User::class, $serviceLocator);
     }
 
-    public function createFromForm(FormInterface $form, UserPasswordEncoderInterface $passwordEncoder): User
+    public function createFromForm(FormInterface $form, UserPasswordEncoderInterface $passwordEncoder): ?User
     {
         $user = new User();
         $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
@@ -36,7 +36,9 @@ class UserRepository extends BaseRepository
         $user->setIsActive(true);
         $user->setLogoUrl('');
 
-        $this->persist($user);
+        if (!$this->persist($user)) {
+            return null;
+        }
 
         return $user;
     }
@@ -59,7 +61,9 @@ class UserRepository extends BaseRepository
         $user->setEmail($form->get('email')->getData());
         $user->setDefaultContractor($seller);
 
-        $this->merge($user);
+        if (!$this->merge($user)) {
+            return null;
+        }
 
         return $user;
     }
@@ -76,7 +80,9 @@ class UserRepository extends BaseRepository
         }
 
         $user->setPassword($password);
-        $this->merge($user);
+        if (!$this->merge($user)) {
+            return null;
+        }
 
         return $user;
     }
@@ -97,7 +103,9 @@ class UserRepository extends BaseRepository
         }
 
         $user->setLogoUrl($path . $filename);
-        $this->merge($user);
+        if (!$this->merge($user)) {
+            return null;
+        }
 
         return $user;
     }

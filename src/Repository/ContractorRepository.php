@@ -22,15 +22,17 @@ class ContractorRepository extends BaseRepository
         parent::__construct($registry, Contractor::class, $serviceLocator);
     }
 
-    public function changeStatus(Contractor $contractor): Contractor
+    public function changeStatus(Contractor $contractor): ?Contractor
     {
         $contractor->setStatus(!$contractor->getStatus());
-        $this->persist($contractor);
+        if (!$this->persist($contractor)) {
+            return null;
+        }
 
         return $contractor;
     }
 
-    public function createFromForm(FormInterface $form, User $user): Contractor
+    public function createFromForm(FormInterface $form, User $user): ?Contractor
     {
         $contractor = new Contractor();
         $contractor->setName($form->get('name')->getData());
@@ -44,12 +46,14 @@ class ContractorRepository extends BaseRepository
         $contractor->setStatus(true);
         $contractor->setUser($user);
 
-        $this->persist($contractor);
+        if (!$this->persist($contractor)) {
+            return null;
+        }
 
         return $contractor;
     }
 
-    public function editFromForm(FormInterface $form, COntractor $contractor, User $user): Contractor
+    public function editFromForm(FormInterface $form, Contractor $contractor, User $user): ?Contractor
     {
         $contractor->setName($form->get('name')->getData());
         $contractor->setAddress($form->get('address')->getData());
@@ -62,7 +66,9 @@ class ContractorRepository extends BaseRepository
         $contractor->setStatus(true);
         $contractor->setUser($user);
 
-        $this->merge($contractor);
+        if (!$this->merge($contractor)) {
+            return null;
+        }
 
         return $contractor;
     }

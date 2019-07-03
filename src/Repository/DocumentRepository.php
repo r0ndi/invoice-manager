@@ -102,7 +102,9 @@ class DocumentRepository extends BaseRepository
         $document->setDateIssue(new DateTime($form->get('dateIssue')->getData()));
         $document->setPaymentDateLimit(new DateTime($form->get('paymentDateLimit')->getData()));
 
-        $this->persist($document, false);
+        if (!$this->persist($document, false)) {
+            return null;
+        }
 
         $documentPosition = new DocumentPosition();
         $documentPosition->setDocument($document);
@@ -113,7 +115,9 @@ class DocumentRepository extends BaseRepository
         $documentPosition->setPrice($form->get('positionNetPrice')->getData());
         $document->getPositions()->add($documentPosition);
 
-        $this->persist($documentPosition);
+        if (!$this->persist($documentPosition)) {
+            return null;
+        }
 
         return $document;
     }
@@ -190,7 +194,9 @@ class DocumentRepository extends BaseRepository
         $document->setDateIssue(new DateTime($form->get('dateIssue')->getData()));
         $document->setPaymentDateLimit(new DateTime($form->get('paymentDateLimit')->getData()));
 
-        $this->merge($document, false);
+        if (!$this->merge($document, false)) {
+            return null;
+        }
 
         $documentPosition = $document->getPositions()->first();
         $documentPosition->setDocument($document);
@@ -203,15 +209,19 @@ class DocumentRepository extends BaseRepository
         $document->getPositions()->clear();
         $document->getPositions()->add($documentPosition);
 
-        $this->merge($documentPosition);
+        if (!$this->merge($documentPosition)) {
+            return null;
+        }
 
         return $document;
     }
 
-    public function changeStatus(Document $document): Document
+    public function changeStatus(Document $document): ?Document
     {
         $document->setStatus(!$document->getStatus());
-        $this->merge($document);
+        if (!$this->merge($document)) {
+            return null;
+        }
 
         return $document;
     }

@@ -30,7 +30,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         }, $this->findAll());
     }
 
-    public function persist($object, bool $flush = true): void
+    public function persist($object, bool $flush = true): bool
     {
         try {
             $this->getEntityManager()->persist($object);
@@ -40,10 +40,13 @@ abstract class BaseRepository extends ServiceEntityRepository
             }
         } catch (Exception $exception) {
             $this->getServiceLocator()->getNotifyService()->addError($exception->getMessage());
+            return false;
         }
+
+        return true;
     }
 
-    public function merge($object, bool $flush = true): void
+    public function merge($object, bool $flush = true): bool
     {
         try {
             $this->getEntityManager()->merge($object);
@@ -53,6 +56,9 @@ abstract class BaseRepository extends ServiceEntityRepository
             }
         } catch (Exception $exception) {
             $this->getServiceLocator()->getNotifyService()->addError($exception->getMessage());
+            return false;
         }
+
+        return true;
     }
 }
