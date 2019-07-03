@@ -2,6 +2,11 @@
 
 namespace App\Tests;
 
+use App\Entity\Document;
+use App\Entity\User;
+use App\Tests\Mocks\EntityMock;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Client;
 use App\Service\DocumentService\DocumentFactory;
 use App\Service\DocumentService\Document\Invoice;
@@ -30,10 +35,22 @@ class DocumentTest extends WebTestCase
 
     public function testGenerateInvoice()
     {
-        $invoice = $this->getDocumentFactory()->getDocument(Invoice::class);
-        $this->assertEquals('invoice_01-05-2019.pdf', $invoice->getFileName());
-        $this->assertEquals(true, $invoice->save());
-        $this->assertEquals(true, $invoice->remove());
+        $document = new Document();
+        $document->setTitle('Faktura VAT nr 01/05/2019');
+        $document->setUser(EntityMock::getUser());
+        $document->setPaid(false);
+
+        dump($document);exit;
+
+        $documentRepository = $this->createMock(ObjectRepository::class);
+        $documentRepository->expects($this->any())
+            ->method('find')
+            ->willReturn($document);
+
+        $invoice = $this->getDocumentFactory()->getDocument(Invoice::class, $document);
+        $this->assertEquals(true, $invoice->save(), 'Save Invoice');
+        $this->assertEquals('invoice_01-05-2019.pdf', $invoice->getFileName(), 'Invoice file name');
+        $this->assertEquals(true, $invoice->remove(), 'Remove Invoice');
     }
 
 }
