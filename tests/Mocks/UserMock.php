@@ -4,7 +4,7 @@ namespace App\Tests\Mocks;
 
 use App\Entity\User;
 
-class EntityMock
+class UserMock
 {
     public static function getUser(): User
     {
