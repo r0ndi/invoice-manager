@@ -25,7 +25,7 @@ class DocumentTest extends BaseTest
     public function testGenerateInvoice()
     {
         $document = DocumentMock::getDocument();
-dump($document);exit;
+
         $invoice = $this->getDocumentFactory()->getDocument(Invoice::class, $document);
         $this->assertEquals(true, $invoice->save(), 'Save Invoice');
         $this->assertEquals('invoice_01-05-2019.pdf', $invoice->getFileName(), 'Invoice file name');

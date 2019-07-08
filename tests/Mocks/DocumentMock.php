@@ -27,6 +27,11 @@ class DocumentMock
         $document->setDocumentType(DocumentTypeMock::getDocumentType());
         $document->setPaymentMethod(PaymentMethodMock::getPaymentMethod());
 
+        $quantity = rand(1, 3);
+        for ($i = 0; $i < $quantity; $i++) {
+            $document->getPositions()->add(DocumentPositionMock::getDocumentPosition());
+        }
+
         return $document;
     }
 
