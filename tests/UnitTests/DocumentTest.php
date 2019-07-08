@@ -2,10 +2,7 @@
 
 namespace App\Tests\UnitTests;
 
-use App\Entity\Document;
 use App\Tests\Mocks\DocumentMock;
-use App\Tests\Mocks\EntityMock;
-use Doctrine\Common\Persistence\ObjectRepository;
 use App\Service\DocumentService\DocumentFactory;
 use App\Service\DocumentService\Document\Invoice;
 
