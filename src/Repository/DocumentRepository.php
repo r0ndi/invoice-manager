@@ -231,7 +231,7 @@ class DocumentRepository extends BaseRepository
         $currentMonth = (new DateTime())->format('Y-m');
 
         return $this->createQueryBuilder('d')
-            ->andWhere('d.dateAdded LIKE :dateAdded')
+            ->andWhere('d.dateSell LIKE :dateSell')
             ->andWhere('d.status = 1')
             ->setParameter('dateSell', "%$currentMonth%")
             ->getQuery()
