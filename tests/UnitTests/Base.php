@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class BaseTest extends WebTestCase
+class Base extends WebTestCase
 {
     private $client;
 

@@ -6,7 +6,7 @@ use App\Tests\Mocks\DocumentMock;
 use App\Service\DocumentService\DocumentFactory;
 use App\Service\DocumentService\Document\Invoice;
 
-class DocumentTest extends BaseTest
+class DocumentTest extends Base
 {
     private $documentFactory;
 
@@ -22,14 +22,28 @@ class DocumentTest extends BaseTest
         return $this->documentFactory;
     }
 
-    public function testGenerateInvoice()
+    public function testFileName()
     {
         $document = DocumentMock::getDocument();
-
         $invoice = $this->getDocumentFactory()->getDocument(Invoice::class, $document);
-        $this->assertEquals(true, $invoice->save(), 'Save Invoice');
-        $this->assertEquals('invoice_01-05-2019.pdf', $invoice->getFileName(), 'Invoice file name');
-        $this->assertEquals(true, $invoice->remove(), 'Remove Invoice');
+
+        $this->assertEquals(DocumentMock::getFileName($document->getTitle()), $invoice->getFileName());
+    }
+
+    public function testSave(): void
+    {
+        $document = DocumentMock::getDocument();
+        $invoice = $this->getDocumentFactory()->getDocument(Invoice::class, $document);
+
+        $this->assertTrue($invoice->save());
+    }
+
+    public function testRemove(): void
+    {
+        $document = DocumentMock::getDocument();
+        $invoice = $this->getDocumentFactory()->getDocument(Invoice::class, $document);
+
+        $this->assertTrue($invoice->remove());
     }
 
 }

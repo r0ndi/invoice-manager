@@ -35,6 +35,18 @@ class DocumentMock
         return $document;
     }
 
+    public static function getFileName(string $title): string
+    {
+        $title = trim(preg_replace('/[a-zA-Z]/', '', $title));
+        $title = str_replace(['/', '\\', '_', ' '], '-', $title);
+
+        return sprintf(
+            '%s_%s.pdf',
+            'invoice',
+            $title
+        );
+    }
+
     private static function getTitle(): string
     {
         return sprintf(
