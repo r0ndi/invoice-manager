@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
+use App\Util\ServiceLocator;
 use App\Entity\DocumentPosition;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,10 +12,10 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method DocumentPosition[]    findAll()
  * @method DocumentPosition[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DocumentPositionRepository extends ServiceEntityRepository
+class DocumentPositionRepository extends BaseRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, ServiceLocator $serviceLocator)
     {
-        parent::__construct($registry, DocumentPosition::class);
+        parent::__construct($registry, DocumentPosition::class, $serviceLocator);
     }
 }

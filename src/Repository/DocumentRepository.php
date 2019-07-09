@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\DocumentPosition;
 use App\Entity\Tax;
 use App\Entity\Util;
+use App\Util\ServiceLocator;
 use DateTime;
 use App\Entity\Contractor;
 use App\Entity\Document;
@@ -21,11 +22,11 @@ use Symfony\Component\Form\FormInterface;
  * @method Document[]    findAll()
  * @method Document[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DocumentRepository extends ServiceEntityRepository
+class DocumentRepository extends BaseRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, ServiceLocator $serviceLocator)
     {
-        parent::__construct($registry, Document::class);
+        parent::__construct($registry, Document::class, $serviceLocator);
     }
 
     public function createFromForm(FormInterface $form, User $user): ?Document
@@ -38,26 +39,50 @@ class DocumentRepository extends ServiceEntityRepository
         $positionTax = $this->getEntityManager()->find(Tax::class, $form->get('positionTax')->getData());
 
         if (!($buyer instanceof Contractor)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.buyer')
+            );
+
             return null;
         }
 
         if (!($seller instanceof Contractor)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.seller')
+            );
+
             return null;
         }
 
         if (!($documentType instanceof DocumentType)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.documentType')
+            );
+
             return null;
         }
 
         if (!($paymentMethod instanceof PaymentMethod)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.paymentMethod')
+            );
+
             return null;
         }
 
         if (!($positionUtil instanceof Util)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.util')
+            );
+
             return null;
         }
 
         if (!($positionTax instanceof Tax)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.tax')
+            );
+
             return null;
         }
 
@@ -77,7 +102,9 @@ class DocumentRepository extends ServiceEntityRepository
         $document->setDateIssue(new DateTime($form->get('dateIssue')->getData()));
         $document->setPaymentDateLimit(new DateTime($form->get('paymentDateLimit')->getData()));
 
-        $this->getEntityManager()->persist($document);
+        if (!$this->persist($document, false)) {
+            return null;
+        }
 
         $documentPosition = new DocumentPosition();
         $documentPosition->setDocument($document);
@@ -86,9 +113,11 @@ class DocumentRepository extends ServiceEntityRepository
         $documentPosition->setName($form->get('positionName')->getData());
         $documentPosition->setQuantity($form->get('positionQuantity')->getData());
         $documentPosition->setPrice($form->get('positionNetPrice')->getData());
+        $document->getPositions()->add($documentPosition);
 
-        $this->getEntityManager()->persist($documentPosition);
-        $this->getEntityManager()->flush();
+        if (!$this->persist($documentPosition)) {
+            return null;
+        }
 
         return $document;
     }
@@ -103,26 +132,50 @@ class DocumentRepository extends ServiceEntityRepository
         $positionTax = $this->getEntityManager()->find(Tax::class, $form->get('positionTax')->getData());
 
         if (!($buyer instanceof Contractor)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.buyer')
+            );
+
             return null;
         }
 
         if (!($seller instanceof Contractor)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.seller')
+            );
+
             return null;
         }
 
         if (!($documentType instanceof DocumentType)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.documentType')
+            );
+
             return null;
         }
 
         if (!($paymentMethod instanceof PaymentMethod)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.paymentMethod')
+            );
+
             return null;
         }
 
         if (!($positionUtil instanceof Util)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.util')
+            );
+
             return null;
         }
 
         if (!($positionTax instanceof Tax)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.document.error.tax')
+            );
+
             return null;
         }
 
@@ -141,7 +194,9 @@ class DocumentRepository extends ServiceEntityRepository
         $document->setDateIssue(new DateTime($form->get('dateIssue')->getData()));
         $document->setPaymentDateLimit(new DateTime($form->get('paymentDateLimit')->getData()));
 
-        $this->getEntityManager()->merge($document);
+        if (!$this->merge($document, false)) {
+            return null;
+        }
 
         $documentPosition = $document->getPositions()->first();
         $documentPosition->setDocument($document);
@@ -151,18 +206,22 @@ class DocumentRepository extends ServiceEntityRepository
         $documentPosition->setQuantity($form->get('positionQuantity')->getData());
         $documentPosition->setPrice($form->get('positionNetPrice')->getData());
 
-        $this->getEntityManager()->merge($documentPosition);
-        $this->getEntityManager()->flush();
+        $document->getPositions()->clear();
+        $document->getPositions()->add($documentPosition);
+
+        if (!$this->merge($documentPosition)) {
+            return null;
+        }
 
         return $document;
     }
 
-    public function changeStatus(Document $document): Document
+    public function changeStatus(Document $document): ?Document
     {
         $document->setStatus(!$document->getStatus());
-
-        $this->getEntityManager()->merge($document);
-        $this->getEntityManager()->flush();
+        if (!$this->merge($document)) {
+            return null;
+        }
 
         return $document;
     }

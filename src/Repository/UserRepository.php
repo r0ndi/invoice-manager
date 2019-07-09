@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Contractor;
 use App\Entity\User;
 use App\Util\ConfigReader;
+use App\Util\ServiceLocator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -18,14 +19,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends BaseRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, ServiceLocator $serviceLocator)
     {
-        parent::__construct($registry, User::class);
+        parent::__construct($registry, User::class, $serviceLocator);
     }
 
-    public function createFromForm(FormInterface $form, UserPasswordEncoderInterface $passwordEncoder): User
+    public function createFromForm(FormInterface $form, UserPasswordEncoderInterface $passwordEncoder): ?User
     {
         $user = new User();
         $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
@@ -35,8 +36,9 @@ class UserRepository extends ServiceEntityRepository
         $user->setIsActive(true);
         $user->setLogoUrl('');
 
-        $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush();
+        if (!$this->persist($user)) {
+            return null;
+        }
 
         return $user;
     }
@@ -47,6 +49,10 @@ class UserRepository extends ServiceEntityRepository
         $seller = $contractorRepository->find((int)$form->get('seller')->getData());
 
         if (!($seller instanceof Contractor)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.user.error.seller')
+            );
+
             return null;
         }
 
@@ -55,8 +61,9 @@ class UserRepository extends ServiceEntityRepository
         $user->setEmail($form->get('email')->getData());
         $user->setDefaultContractor($seller);
 
-        $this->getEntityManager()->merge($user);
-        $this->getEntityManager()->flush();
+        if (!$this->merge($user)) {
+            return null;
+        }
 
         return $user;
     }
@@ -65,12 +72,17 @@ class UserRepository extends ServiceEntityRepository
     {
         $password = $passwordEncoder->encodePassword($user, $form->get('password')->getData());
         if ($passwordEncoder->isPasswordValid($user, $password)) {
+            $this->getServiceLocator()->getNotifyService()->addError(
+                $this->getServiceLocator()->getTranslator()->trans('form.user.error.resetPassword')
+            );
+
             return null;
         }
 
         $user->setPassword($password);
-        $this->getEntityManager()->merge($user);
-        $this->getEntityManager()->flush();
+        if (!$this->merge($user)) {
+            return null;
+        }
 
         return $user;
     }
@@ -85,13 +97,15 @@ class UserRepository extends ServiceEntityRepository
 
         try {
             $logoFile->move($absolutePath, $filename);
-        } catch (FileException $e) {
+        } catch (FileException $exception) {
+            $this->getServiceLocator()->getNotifyService()->addError($exception->getMessage());
             return null;
         }
 
         $user->setLogoUrl($path . $filename);
-        $this->getEntityManager()->merge($user);
-        $this->getEntityManager()->flush();
+        if (!$this->merge($user)) {
+            return null;
+        }
 
         return $user;
     }

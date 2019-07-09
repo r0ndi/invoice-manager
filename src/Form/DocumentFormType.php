@@ -122,14 +122,14 @@ class DocumentFormType extends AbstractType
                     'placeholder' => 'form.document.positionQuantity'
                 ]
             ])
-            ->add('positionNetPrice', NumberType::class, [
+            ->add('positionNetPrice', TextType::class, [
                 'label' => 'form.document.label.positionNetPrice',
                 'attr' => [
                     'value' => $priceCalculator ? $priceCalculator->getNet() : null,
                     'placeholder' => 'form.document.positionNetPrice'
                 ]
             ])
-            ->add('positionNetValue', NumberType::class, [
+            ->add('positionNetValue', TextType::class, [
                 'label' => 'form.document.label.positionNetValue',
                 'attr' => [
                     'value' => $priceCalculator ? $priceCalculator->getNetValue() : null,
@@ -145,7 +145,7 @@ class DocumentFormType extends AbstractType
                     'class' => 'select-picker'
                 ]
             ])
-            ->add('positionGrossPrice', NumberType::class, [
+            ->add('positionGrossPrice', TextType::class, [
                 'label' => 'form.document.label.positionGrossPrice',
                 'attr' => [
                     'value' => $priceCalculator ? $priceCalculator->getGross() : null,
@@ -153,7 +153,7 @@ class DocumentFormType extends AbstractType
                     'readonly' => true
                 ]
             ])
-            ->add('positionGrossValue', NumberType::class, [
+            ->add('positionGrossValue', TextType::class, [
                 'label' => 'form.document.label.positionGrossValue',
                 'attr' => [
                     'value' => $priceCalculator ? $priceCalculator->getGrossValue() : null,

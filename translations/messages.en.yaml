@@ -127,6 +127,12 @@
 "form.document.label.bankNo": "Bank no:"
 "form.document.bankNo": "0000 0000 0000 0000 0000 0000"
 "form.document.submit": "Save document"
+"form.document.error.buyer": "Invalid field: buyer"
+"form.document.error.seller": "Invalid field: seller"
+"form.document.error.paymentMethod": "Invalid field: payment method"
+"form.document.error.documentType": "Invalid field: document type"
+"form.document.error.util": "Invalid field: util"
+"form.document.error.tax": "Invalid field: tax"
 
 "user.edit.header.account.title": "Edit your account information"
 "user.edit.header.password.title": "Reset your password"
@@ -138,6 +144,8 @@
 "form.user.password": "New password"
 "form.user.logo": "Click here and upload a new logo"
 "form.user.submit": "Save"
+"form.user.error.seller": "Invalid field: seller"
+"form.user.error.resetPassword": "Invalid password"
 
 "home.paragraph.application.name": "invoice manager!"
 "home.paragraph.welcome": "Welcome to "

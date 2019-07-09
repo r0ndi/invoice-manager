@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Util\ServiceLocator;
 use DateTime;
 use App\Entity\Contractor;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -16,22 +17,22 @@ use Symfony\Component\Form\FormInterface;
  */
 class ContractorRepository extends BaseRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, ServiceLocator $serviceLocator)
     {
-        parent::__construct($registry, Contractor::class);
+        parent::__construct($registry, Contractor::class, $serviceLocator);
     }
 
-    public function changeStatus(Contractor $contractor): Contractor
+    public function changeStatus(Contractor $contractor): ?Contractor
     {
         $contractor->setStatus(!$contractor->getStatus());
-
-        $this->getEntityManager()->persist($contractor);
-        $this->getEntityManager()->flush();
+        if (!$this->persist($contractor)) {
+            return null;
+        }
 
         return $contractor;
     }
 
-    public function createFromForm(FormInterface $form, User $user): Contractor
+    public function createFromForm(FormInterface $form, User $user): ?Contractor
     {
         $contractor = new Contractor();
         $contractor->setName($form->get('name')->getData());
@@ -45,13 +46,14 @@ class ContractorRepository extends BaseRepository
         $contractor->setStatus(true);
         $contractor->setUser($user);
 
-        $this->getEntityManager()->persist($contractor);
-        $this->getEntityManager()->flush();
+        if (!$this->persist($contractor)) {
+            return null;
+        }
 
         return $contractor;
     }
 
-    public function editFromForm(FormInterface $form, COntractor $contractor, User $user): Contractor
+    public function editFromForm(FormInterface $form, Contractor $contractor, User $user): ?Contractor
     {
         $contractor->setName($form->get('name')->getData());
         $contractor->setAddress($form->get('address')->getData());
@@ -64,8 +66,9 @@ class ContractorRepository extends BaseRepository
         $contractor->setStatus(true);
         $contractor->setUser($user);
 
-        $this->getEntityManager()->merge($contractor);
-        $this->getEntityManager()->flush();
+        if (!$this->merge($contractor)) {
+            return null;
+        }
 
         return $contractor;
     }
