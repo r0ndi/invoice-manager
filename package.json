@@ -17,7 +17,7 @@
     "dependencies": {
         "bootstrap": "^4.3.1",
         "font-awesome-webpack": "0.0.5-beta.2",
-        "jquery": "^3.3.1",
+        "jquery": "^3.5.0",
         "sweetalert2": "^8.12.1",
         "yarn": "^1.16.0"
     }
